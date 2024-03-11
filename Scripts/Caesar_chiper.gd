@@ -1,13 +1,12 @@
 extends Node
 
-var SHIFT: int = -1
+ 
+@export var SHIFT: int = randi_range(-24,24)
+@export var MESSAGE: String = "this is a random"
 
-signal caeser_signal
+signal caeser_signal(caisar_object)
 
-class Caesar_Shift:
-	var message: String
-	var encrypted: String
-	var shift: int
+
 
 ##TODO
 ##UPPER/LOWER CASE
@@ -19,8 +18,10 @@ class Caesar_Shift:
 enum CHIPER_ALPHABET {a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z}
 
 
+
+
 func _ready() -> void:
-	caesar_chiper("this is a message", SHIFT)
+	caesar_chiper(MESSAGE, SHIFT)
 
 func chiper_index(character: String) -> int:
 	for i in CHIPER_ALPHABET:
@@ -31,65 +32,81 @@ func chiper_index(character: String) -> int:
 	return -1	 
 	
 	
-func chiper_encryption(index: int) -> String:
+func chiper_encryption(sentence: String, shift: int) -> String:
 	#We loop around in the Alphabet
 	var maxSize: int = CHIPER_ALPHABET.size()
+	var encrypted_string: String = ""
 	
-	if index >= maxSize:
-		var offset = index - maxSize
-		index = 0 + offset
-		return CHIPER_ALPHABET.find_key(index) 
-	if index < 0:
-		return CHIPER_ALPHABET.find_key(maxSize + index)
-	else:
-		return CHIPER_ALPHABET.find_key(index)
-	
+	for i in sentence:
+		if i == " ":
+			encrypted_string += i
+			continue
+			
+		var shiftedIndex: int = chiper_index(i) + shift
 
-func chiper_decryption(character: String, shift: int) -> String:
-	var index: int = chiper_index(character)
-	var maxSize: int = CHIPER_ALPHABET.size() - 1
-	shift = shift * -1
+		if shiftedIndex >= maxSize:
+			var offset = shiftedIndex - maxSize
+			shiftedIndex = 0 + offset
+			encrypted_string += CHIPER_ALPHABET.find_key(shiftedIndex) 
+			continue
+		if shiftedIndex < 0:
+			encrypted_string += CHIPER_ALPHABET.find_key(maxSize + shiftedIndex)
+			continue
+		else:
+			encrypted_string += CHIPER_ALPHABET.find_key(shiftedIndex)
+			continue
+	return encrypted_string
 	
-	if index + shift > maxSize:
-		var offset: int = (index - maxSize) + shift - 1
-		index = offset
-		return CHIPER_ALPHABET.find_key(index)
-		
-	if index + shift < 0:
-		return CHIPER_ALPHABET.find_key(maxSize + shift + 1)
-		
-	return CHIPER_ALPHABET.find_key(index + shift) 
+	
+func chiper_decryption(sentence: String, shift: int) -> String:
+	var index: int
+	var maxSize: int = CHIPER_ALPHABET.size() - 1
+	var dec_str: String = ""
+	
+	for i in sentence:
+		if i == " ":
+			dec_str += i
+			continue
+		index = chiper_index(i)	
+		if shift > 0:
+			if index - shift > maxSize:
+				var offset: int = (index + shift) - maxSize
+				index = 0 + offset
+				dec_str += CHIPER_ALPHABET.find_key(index)
+				continue
+			if index - shift < 0:
+				var offset: int = index - shift
+				index = maxSize - abs(offset)
+				dec_str += CHIPER_ALPHABET.find_key(index + 1)
+				continue
+			else:
+				dec_str += CHIPER_ALPHABET.find_key(index - shift)
+				
+		else:
+			if index + abs(shift) > maxSize:
+				var offset: int = (index + abs(shift)) - maxSize
+				index = 0 + offset
+				dec_str += CHIPER_ALPHABET.find_key(index - 1)
+				#continue
+			else:
+				dec_str += CHIPER_ALPHABET.find_key(index + abs(shift))
+				
+	return dec_str
 	
 
 
 func caesar_chiper(text : String, shift : int):
+	#FIXME Works randomly
 	assert(shift > 26 || shift > -26, "There's no reason to go beyond shift 25 as you're just repeating yourself")
 
-	var cs = Caesar_Shift.new()
-	
-	var input_string: String = ""
-	var dec_str: String = ""
-	var encrypted_string: String = ""
+	var cs = Caesar_Shift_Object.new(MESSAGE,SHIFT)
 
-	
-	for i in text:
-		if i == " ":
-			input_string += i
-			encrypted_string += i
-			continue
-		input_string += i
-		
-		var SHIFT_Alphabet_Index: int = chiper_index(i) + shift
-		encrypted_string += chiper_encryption(SHIFT_Alphabet_Index)
-		
-	for i in encrypted_string:
-		if i == " ":
-			dec_str += i
-			continue
-		dec_str += chiper_decryption(i, SHIFT)
 
-	cs.shift = shift
+	var encrypted_string = chiper_encryption(MESSAGE,SHIFT)
+
+	var decrypted_string = chiper_decryption(encrypted_string, SHIFT)
+		
+
+
 	cs.encrypted = encrypted_string
-	cs.message = input_string
-	
-	#emit_signal("caeser_signal", Caiser_Shift)
+	emit_signal("caeser_signal", cs)

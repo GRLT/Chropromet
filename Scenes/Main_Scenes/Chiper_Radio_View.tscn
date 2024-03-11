@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://igqaxb1151nr"]
+
+[ext_resource type="Script" path="res://Scripts/Caesar_chiper.gd" id="1_2okhs"]
+[ext_resource type="Script" path="res://Scripts/Chiper_Radio_View_Manager.gd" id="1_47xw0"]
+
+[node name="ChiperRadioView" type="Node2D"]
+script = ExtResource("1_47xw0")
+
+[node name="View" type="Camera2D" parent="."]
+position = Vector2(575, 323)
+
+[node name="Chiper_Display" type="Label" parent="."]
+offset_left = 296.0
+offset_top = 164.0
+offset_right = 422.0
+offset_bottom = 207.0
+text = "Testing Label"
+
+[node name="Timeout_Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("1_2okhs")
+
+[connection signal="caeser_signal" from="Node2D" to="." method="_on_node_2d_caeser_signal"]
