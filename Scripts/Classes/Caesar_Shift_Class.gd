@@ -13,7 +13,6 @@ enum CHIPER_ALPHABET {a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t
 
 var message: String = ""
 var encrypted: String = ""
-var encrypted_status: bool = false
 var shift: int = 0
 	
 func _init(_message, _shift) -> void:
@@ -21,6 +20,7 @@ func _init(_message, _shift) -> void:
 	"There's no reason to go beyond shift 25 as you're just repeating yourself")
 	self.message = _message
 	self.shift = _shift
+	self.encrypted = chiper_encryption()
 
 	
 func chiper_index(character: String) -> int:
@@ -31,7 +31,7 @@ func chiper_index(character: String) -> int:
 			assert(false, "Missing character: %s" % character)
 	return -1	 
 	
-func _chiper_encryption() -> void:
+func chiper_encryption() -> String:
 #We loop around in the Alphabet
 	var maxSize: int = CHIPER_ALPHABET.size()
 	var encrypted_string: String = ""
@@ -54,10 +54,9 @@ func _chiper_encryption() -> void:
 		else:
 			encrypted_string += CHIPER_ALPHABET.find_key(shiftedIndex)
 			continue
-	encrypted = encrypted_string
-	encrypted_status = true
+	return encrypted_string
 	
-func _chiper_decryption() -> String:
+func chiper_decryption() -> String:
 	var index: int
 	var maxSize: int = CHIPER_ALPHABET.size() - 1
 	var dec_str: String = ""
