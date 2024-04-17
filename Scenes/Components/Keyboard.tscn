@@ -19,19 +19,20 @@ offset_bottom = 137.0
 [node name="Player_Input_Screen" type="Label" parent="."]
 layout_mode = 0
 offset_left = 159.0
-offset_top = 136.0
-offset_right = 251.0
+offset_top = 54.0
+offset_right = 333.0
 offset_bottom = 161.0
 autowrap_mode = 3
 
 [node name="Submit" type="Button" parent="."]
 layout_mode = 0
-offset_left = 277.0
-offset_top = 138.0
-offset_right = 318.0
-offset_bottom = 156.0
+offset_left = 340.0
+offset_top = 127.0
+offset_right = 416.0
+offset_bottom = 160.0
+text = "Submit"
 
-[node name="QWERTZ" type="GridContainer" parent="."]
+[node name="Keyboard" type="GridContainer" parent="."]
 layout_mode = 0
 offset_left = 157.0
 offset_top = 209.0
@@ -41,59 +42,103 @@ theme_override_constants/h_separation = 6
 theme_override_constants/v_separation = 10
 columns = 11
 
-[node name="q" type="Button" parent="QWERTZ"]
+[node name="button" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="w" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "
-"
-
-[node name="e" type="Button" parent="QWERTZ"]
+[node name="button1" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="r" type="Button" parent="QWERTZ"]
+[node name="button2" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="t" type="Button" parent="QWERTZ"]
+[node name="button3" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="z" type="Button" parent="QWERTZ"]
+[node name="button4" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="u" type="Button" parent="QWERTZ"]
+[node name="button5" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="i" type="Button" parent="QWERTZ"]
+[node name="button6" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="o" type="Button" parent="QWERTZ"]
+[node name="button7" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="p" type="Button" parent="QWERTZ"]
+[node name="button8" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="backspace" type="Button" parent="QWERTZ"]
+[node name="button9" type="Button" parent="Keyboard"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="backspace" type="Button" parent="Keyboard"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "BCKSPC"
+
+[node name="button10" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button11" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button12" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button13" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button14" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button15" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button16" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button17" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button18" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button19" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button20" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button21" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button22" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button23" type="Button" parent="Keyboard"]
+layout_mode = 2
+
+[node name="button24" type="Button" parent="Keyboard"]
+layout_mode = 2
