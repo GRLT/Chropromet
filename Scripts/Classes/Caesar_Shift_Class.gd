@@ -20,7 +20,10 @@ func _init(_message, _shift) -> void:
 	"There's no reason to go beyond shift 25 as you're just repeating yourself")
 	self.message = _message
 	self.shift = _shift
-	self.encrypted = chiper_encryption()
+	#FIXME
+	#For now we just remove spaces, maybe a special charachter
+	#should imply space or space itself should be encoded.
+	self.encrypted = chiper_encryption().replace(" ", "")
 
 	
 func chiper_index(character: String) -> int:
