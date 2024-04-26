@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://igqaxb1151nr"]
+[gd_scene load_steps=3 format=3 uid="uid://igqaxb1151nr"]
 
 [ext_resource type="Script" path="res://Scripts/View/Chiper_Radio_View.gd" id="1_47xw0"]
+[ext_resource type="PackedScene" uid="uid://dkyj1sni68h8p" path="res://Scenes/Components/Keyboard.tscn" id="2_l532j"]
 
 [node name="ChiperRadioView" type="Node2D"]
 script = ExtResource("1_47xw0")
@@ -8,10 +9,10 @@ script = ExtResource("1_47xw0")
 [node name="View" type="Camera2D" parent="."]
 
 [node name="Chiper_Display" type="RichTextLabel" parent="."]
-offset_left = 7.0
-offset_top = 21.0
-offset_right = 208.0
-offset_bottom = 81.0
+offset_left = 19.0
+offset_top = 13.0
+offset_right = 220.0
+offset_bottom = 73.0
 bbcode_enabled = true
 
 [node name="Timeout_Timer" type="Timer" parent="."]
@@ -20,74 +21,11 @@ wait_time = 10.0
 [node name="Charachter_Timer" type="Timer" parent="."]
 wait_time = 0.8
 
-[node name="Keyboard_State" type="Button" parent="."]
-offset_left = 561.0
-offset_top = 78.0
-offset_right = 575.0
-offset_bottom = 137.0
+[node name="Keyboard" parent="." instance=ExtResource("2_l532j")]
 
-[node name="QWERTZ" type="GridContainer" parent="."]
-offset_left = 157.0
-offset_top = 209.0
-offset_right = 505.0
-offset_bottom = 280.0
-theme_override_constants/h_separation = 6
-theme_override_constants/v_separation = 10
-columns = 10
-
-[node name="q" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="w" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "
-"
-
-[node name="e" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="r" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="t" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="z" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="u" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="i" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="o" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="p" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="a" type="Button" parent="QWERTZ"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="Back" type="Button" parent="."]
+offset_left = -536.0
+offset_top = -287.0
+offset_right = -382.0
+offset_bottom = -256.0
+text = "Back to main View!"

@@ -3,22 +3,32 @@ extends Node2D
 @onready var display = $Chiper_Display
 @onready var fail = $Timeout_Timer
 @onready var charachter_timeout = $Charachter_Timer
+@onready var scence_back = $Back
 
-@onready var submit_button = get_node("Control/Submit")
-@onready var player_input_screen = get_node("Control/Player_Input_Screen")
+@onready var submit_button = get_node("Keyboard/Submit")
+@onready var player_input_screen = get_node("Keyboard/Player_Input_Screen")
+@onready var keyboard = get_node("Keyboard")
 
+@onready var main_game = get_node("..")
 
 var problem_queue: Array[Caesar_Shift_Object] = []
 
 signal stat
-
+signal radio_info
+signal chiper_back
 
 func _ready():
-
-	
 	ProblemGenerator.connect("chiper", arrive_chiper)
+	ProblemGenerator.connect("active_raid", raid)
+	scence_back.pressed.connect(scene_back_pressed)
 
-
+func scene_back_pressed():
+	var main_scene = get_node("/root/Main_Node/MainGame")
+	if main_scene != null:
+		main_scene.get_node("Main_Camera").make_current()
+		
+	if emit_signal("chiper_back") == ERR_UNAVAILABLE:
+		print("Failed to chiper_back signal")
 
 func arrive_chiper(problems):
 	problem_queue.append(problems)
@@ -29,10 +39,18 @@ func arrive_chiper(problems):
 	if !submit_button.is_connected("pressed", check_chiper):
 		submit_button.pressed.connect(check_chiper)
 	
+var active := false
+func send_view_info():
+	if emit_signal("radio_info", problem_queue.size(), active) == ERR_UNAVAILABLE:
+		print("Unable to send, radio_info signal")
+	
 		
 var current_queue = 0
 var char_counter = 0
 func message_print():
+	send_view_info()
+	active = true
+	
 	if problem_queue.size() != 0:
 		current_queue = problem_queue[0]
 		if char_counter < current_queue.getEncrypted().length(): 
@@ -67,6 +85,7 @@ func check_chiper():
 			if problem_queue.size() != 0:
 				problem_queue.pop_front()
 				display.text = "FAIL"
+				active = false
 				arrive_chiper(problem_queue)
 				#Send back a signal with fail
 				if emit_signal("stat") == ERR_UNAVAILABLE:
@@ -78,6 +97,26 @@ func check_chiper():
 func timers_stop():
 		fail.stop()
 		charachter_timeout.stop()
+		
+## True = pause    ||   False = unpause
+func timer_pause_or_resume(toggle: bool):
+	print("pause")
+	fail.set_paused(toggle)
+	charachter_timeout.set_paused(toggle)
+
+#Stop the timer while a raid is ongoing.
+func raid(duration):
+	timer_pause_or_resume(true)
+	
+	var countdown := Timer.new()
+	add_child(countdown)
+	countdown.one_shot = true
+	countdown.start(duration)
+	countdown.timeout.connect(countdown_end)
+	
+
+func countdown_end():
+	timer_pause_or_resume(false)
 
 #TODO
 #Indicate when switching between charachters, It's really hard
