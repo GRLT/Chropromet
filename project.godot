@@ -13,3 +13,7 @@ config_version=5
 config/name="Chropromet"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+ProblemGenerator="*res://Scripts/Problem_Generator.gd"
