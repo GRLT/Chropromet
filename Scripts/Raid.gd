@@ -23,11 +23,12 @@ func _ready():
 func raid_check(duration):
 	raid_timer.start(duration)
 	raid_timer.one_shot = true
-	raid_timer.timeout.connect(raid_end)
-	
+	if !is_connected("timeout", raid_end):
+		raid_timer.timeout.connect(raid_end)
 	if raid_timer.time_left != 0:
 		check_raid.start(0.1)
-		check_raid.timeout.connect(check_current_raid)
+		if !is_connected("timeout",check_current_raid):
+			check_raid.timeout.connect(check_current_raid)
 	
 
 func raid_end():
@@ -36,9 +37,7 @@ func raid_end():
 func check_current_raid():
 	var current_camera = get_viewport().get_camera_2d().name
 	if current_camera != "RaidCamera":
-		#Transition into fail
-		print("Fail state")
-		#get_tree().change_scene_to_file("res://Scenes/Main_Scenes/Main_Game.tscn")
+		get_tree().change_scene_to_file("res://Scenes/Main_Scenes/Fail.tscn")
 	else:
 		print("Good to go, player looking at the")
 		
