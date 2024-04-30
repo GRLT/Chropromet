@@ -1,6 +1,10 @@
 extends Node2D
 
+var test_audio = preload("res://Assets/Music/output.mp3")
+@onready var audio_player = $AudioStreamPlayer2D
 
+@onready var texture_test = load("res://Assets/Raid_Warning_0.png")
+@onready var texture_test2 = load("res://Assets/Raid_Warning_1.png")
 
 @onready var main_node = get_node("/root/Main_Node")
 @onready var main_game = $MainGame
@@ -16,15 +20,45 @@ extends Node2D
 @onready var raid_camera = $Raid_s/RaidCamera
 @onready var raid_s = $Raid_s
 
+var switcher := Timer.new()
+
 func _ready():
+	audio_player.stream = test_audio
+	audio_player.play()
+	
 	chiper_button.pressed.connect(chiper_button_pressed)
 	raid_button.pressed.connect(raid_button_pressed)
 	raid_s.raid_back.connect(raid_button_back)
-	
-	
+	ProblemGenerator.connect("warning_raid", warning_raid)
+
 	radio_view.connect("radio_info", radio_info)
 	radio_view.connect("chiper_back", chiper_back)
 
+	add_child(switcher)
+
+func warning_raid(toggle):
+	print(toggle)
+	if toggle:
+		switcher.paused = false
+		switcher.one_shot = false
+		switcher.start(0.15)
+		switcher.timeout.connect(warning_switcher)
+	else:
+		switcher.paused = true
+		$MainGame/TextureRect.texture = texture_test
+
+var toggle = true
+func warning_switcher():
+	if toggle:
+		print("Texture1")
+		$MainGame/TextureRect.texture = texture_test
+		$ChiperRadioView/TextureRect.texture = texture_test
+		toggle = false
+	else:
+		print("Texture2")
+		$MainGame/TextureRect.texture = texture_test2
+		$ChiperRadioView/TextureRect.texture = texture_test2
+		toggle = true
 
 func hide_unhide_all_station(hide: bool):
 	for i in main_node.get_children():
