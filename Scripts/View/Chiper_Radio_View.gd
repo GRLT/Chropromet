@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 @onready var display = $Chiper_Display
 @onready var fail = $Timeout_Timer
@@ -16,6 +16,8 @@ var problem_queue: Array[Caesar_Shift_Object] = []
 signal stat
 signal radio_info
 signal chiper_back
+
+const SEQUENCE_START = "/"
 
 func _ready():
 	ProblemGenerator.connect("chiper", arrive_chiper)
@@ -53,14 +55,17 @@ func message_print():
 	
 	if problem_queue.size() != 0:
 		current_queue = problem_queue[0]
+		
+		if char_counter == 0:
+			display.text = SEQUENCE_START
+			char_counter += 1
+			return
+		
 		if char_counter < current_queue.getEncrypted().length(): 
-			#Szedd ki a flavour textet
-			display.text ="[pulse freq=1.0 color=#00FF00 ease=-1.0]"+str(current_queue.getEncrypted()[char_counter])+"[/pulse]"
+			display.text = str(current_queue.getEncrypted()[char_counter])
 			char_counter += 1
 		elif fail.time_left == 0:
 			char_counter = 0
-			#FIXME
-			#Fail should only start after the problem was looped at least once.
 			fail.start()
 			if !fail.is_connected("timeout", check_chiper):
 				fail.connect("timeout",check_chiper)
