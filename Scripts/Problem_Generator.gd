@@ -12,13 +12,14 @@ signal chiper(problems)
 signal keyboard_layout(layout)
 signal active_raid(duration)
 signal warning_raid(toggle)
+signal supply_drop_signal(x,y)
 
 var problem_timer := Timer.new()
 var signal_setup := Timer.new()
 var raid_timer := Timer.new()
 var warning_raid_timer := Timer.new()
 var problems = []
-var raid_queue
+
 var layout = ["qwerty", "dvorak", "azerty"]
 
 func _ready():
@@ -39,15 +40,14 @@ func _ready():
 	
 	add_child(raid_timer)
 	add_child(warning_raid_timer)
-	raid_prep(1, 2)
-	chiper_message("qxfv")
-	#Implement for other gamemodes
-	chiper_message("af")
+	
+	
+	chiper_message("hello")
+	chiper_message("word")
+	raid_prep(5, 4)
+	supply_drop(5,6)
 	chiper_message("message")
-	raid_prep(2, 5)
-	chiper_message("message")
-	#chiper_message("av")
-
+	
 
 func raid_send(raid_start, duration):
 	#print("Starting warning timer")
@@ -56,7 +56,6 @@ func raid_send(raid_start, duration):
 	warning_raid_timer.one_shot = true
 	warning_raid_timer.start(WARNING_RAID_TIMER)
 	warning_raid_timer.timeout.connect(warning_timer_timeout.bind(raid_start, duration))
-	
 	
 	
 	
@@ -72,16 +71,20 @@ func warning_timer_timeout(raid_start, duration):
 func raid_prep(raid_start, duration):
 	var raid_obj := Raid_Object.new(raid_start, duration)
 	problems.push_back(raid_obj)
-	
-func raid_timer_timeout(duration):
-	if emit_signal("active_raid", duration) == ERR_UNAVAILABLE:
-		push_warning("Failed to send active_raid signal!")
 
+func supply_drop(x, y):
+	var supply_drop_obj := Supply_Drop.new(x,y)
+	problems.push_back(supply_drop_obj)
 
 func chiper_message(message: String):
 	#var chiper_random = randi_range(-24, 24)
 	var chiper_obj := Caesar_Shift_Object.new(message, 20)
 	problems.push_back(chiper_obj)
+	
+func raid_timer_timeout(duration):
+	if emit_signal("active_raid", duration) == ERR_UNAVAILABLE:
+		push_warning("Failed to send active_raid signal!")
+
 
 	
 func setup():
@@ -92,11 +95,13 @@ func on_problem_timer_timeout():
 	if problems.size() > 0:
 		var current = problems[0]
 		if current is Caesar_Shift_Object:
-			#print("Sending Signal chiper")
 			emit_signal("chiper", current)
 			problems.pop_front()
 		if current is Raid_Object:
 			raid_send(current.getRaidStart(), current.getDuration())
+			problems.pop_front()
+		if current is Supply_Drop:
+			emit_signal("supply_drop_signal", current.getX(), current.getY())
 			problems.pop_front()
 
 	
