@@ -11,9 +11,15 @@ config_version=5
 [application]
 
 config/name="Chropromet"
+run/main_scene="res://Scenes/Main_Scenes/Title.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 ProblemGenerator="*res://Scripts/Problem_Generator.gd"
+
+[display]
+
+window/stretch/mode="canvas_items"
+window/vsync/vsync_mode=0
