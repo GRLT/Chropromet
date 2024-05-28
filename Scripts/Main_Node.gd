@@ -10,16 +10,13 @@ extends Node2D
 @onready var main_node = get_node("/root/Main_Node")
 @onready var main_game = $MainGame
 
-@onready var radio_view = $ChiperRadioView
-@onready var radio_station = $MainGame/Radio_Station
-@onready var radio_station_counter = $MainGame/Radio_Station/Chiper_Station_Counter
-@onready var radio_station_bool = $MainGame/Radio_Station/Chiper_Station_Bool
-
-@onready var chiper_button = $MainGame/Radio_Station/Chiper_Button
-@onready var chiper_radio_camera = $ChiperRadioView/View
+@onready var chiper_view = $Chiper
+@onready var chiper_station_counter = $MainGame/Stations/Chiper_Station/Chiper_Station_Counter
+@onready var chiper_button = $MainGame/Stations/Chiper_Station/Chiper_Button
+@onready var chiper_camera = $Chiper/View
 
 @onready var map = $Map
-@onready var map_button = $MainGame/Node2D/Map_Button
+@onready var map_button = $MainGame/Stations/Map_Station/Map_Button
 @onready var map_camera = $Map/Map_Camera
 
 @onready var raid_button = $MainGame/RaidButton
@@ -30,18 +27,17 @@ extends Node2D
 var switcher := Timer.new()
 
 func _ready():
-	#audio_player.stream = test_audio
-	#audio_player.play()
-	
 	chiper_button.pressed.connect(chiper_button_pressed)
+	
 	map_button.pressed.connect(map_button_pressed)
 	map.connect("map_back", map_back)
+	
 	raid_button.pressed.connect(raid_button_pressed)
 	raid_s.raid_back.connect(raid_button_back)
 
 	ProblemGenerator.connect("warning_raid", warning_raid)
-	radio_view.connect("radio_info", radio_info)
-	radio_view.connect("chiper_back", chiper_back)
+	chiper_view.connect("radio_info", radio_info)
+	chiper_view.connect("chiper_back", chiper_back)
 
 	add_child(switcher)
 
@@ -102,7 +98,7 @@ func disable_main_buttons(hide: bool):
 			i.disabled = false
 	
 func radio_info(problem_queue_size: int, active:bool):
-	radio_station_counter.text = str(problem_queue_size)
+	chiper_station_counter.text = str(problem_queue_size)
 	#radio_station_bool.texture = chiper_station_texture_bool 
 
 func raid_button_pressed():
@@ -111,11 +107,11 @@ func raid_button_pressed():
 	
 
 func raid_button_back():
-	hide_unhide_with_expection(false, ["Raid_s", "ChiperRadioView", "Map"])
+	hide_unhide_with_expection(false, ["Raid_s", "Chiper", "Map"])
 
 func chiper_back():
-	hide_unhide_with_expection(false, ["ChiperRadioView"])
+	hide_unhide_with_expection(false, ["Chiper"])
 
 func chiper_button_pressed():
-	hide_unhide_with_expection(true, ["ChiperRadioView"])
-	chiper_radio_camera.make_current()
+	hide_unhide_with_expection(true, ["Chiper"])
+	chiper_camera.make_current()
