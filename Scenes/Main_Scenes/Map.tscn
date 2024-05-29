@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxf0mhbv4h3bx"]
+[gd_scene load_steps=3 format=3 uid="uid://dxf0mhbv4h3bx"]
 
 [ext_resource type="Script" path="res://Scripts/Map.gd" id="1_1mero"]
+[ext_resource type="Texture2D" uid="uid://bvdtx8gt0sreq" path="res://Assets/Raid_Warning_0.png" id="2_smo1t"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_1mero")
@@ -23,3 +24,11 @@ offset_bottom = 212.0
 theme_override_constants/h_separation = -1
 theme_override_constants/v_separation = -1
 columns = 10
+
+[node name="Warning_Texture" type="TextureRect" parent="." groups=["warning"]]
+unique_name_in_owner = true
+offset_left = -570.0
+offset_top = 242.0
+offset_right = -490.0
+offset_bottom = 322.0
+texture = ExtResource("2_smo1t")

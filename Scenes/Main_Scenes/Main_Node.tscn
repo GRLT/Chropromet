@@ -120,7 +120,7 @@ offset_right = -528.0
 offset_bottom = -209.0
 text = "Raid"
 
-[node name="Warning_Texture" type="TextureRect" parent="MainGame"]
+[node name="Warning_Texture" type="TextureRect" parent="MainGame" groups=["warning"]]
 unique_name_in_owner = true
 offset_left = -577.0
 offset_top = -324.0

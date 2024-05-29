@@ -20,3 +20,9 @@ offset_top = -322.0
 offset_right = -528.0
 offset_bottom = -291.0
 text = "Back"
+
+[node name="Status" type="Label" parent="."]
+offset_left = -47.0
+offset_top = -134.0
+offset_right = 48.0
+offset_bottom = -92.0

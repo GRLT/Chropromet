@@ -29,12 +29,13 @@ func raid_check(duration):
 		check_raid.start(0.1)
 		if !is_connected("timeout",check_current_raid):
 			check_raid.timeout.connect(check_current_raid)
-	
 
 func raid_end():
+	$Status.text = "Raid Over!"
 	check_raid.stop()
 
 func check_current_raid():
+	$Status.text = "RAID!"
 	var current_camera = get_viewport().get_camera_2d().name
 	if current_camera != "RaidCamera":
 		get_tree().change_scene_to_file("res://Scenes/Main_Scenes/Fail.tscn")

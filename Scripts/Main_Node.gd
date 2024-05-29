@@ -29,6 +29,8 @@ extends Node2D
 
 @onready var book = get_node("Book")
 
+@onready var warning_buttons = get_tree().get_nodes_in_group("warning")
+
 var switcher := Timer.new()
 
 func _ready():
@@ -49,9 +51,7 @@ func _ready():
 	ProblemGenerator.connect("warning_raid", warning_raid)
 	chiper_view.connect("radio_info", radio_info)
 	chiper_view.connect("chiper_back", chiper_back)
-
 	book.hide()
-
 	add_child(switcher)
 	
 func morse_info(pool_size):
@@ -81,7 +81,6 @@ func map_button_pressed():
 	map_camera.make_current()
 
 func warning_raid(toggle):
-	print(toggle)
 	if toggle:
 		switcher.paused = false
 		switcher.one_shot = false
@@ -91,14 +90,17 @@ func warning_raid(toggle):
 		switcher.paused = true
 		warning_texture.texture = warning_texture_on
 
+
 var toggle = true
 func warning_switcher():	
-	if toggle:
-		warning_texture.texture = warning_texture_on
-		toggle = false
-	else:
-		warning_texture.texture = warning_texture_off
-		toggle = true
+	for i in warning_buttons:
+		print(i.texture)
+		if toggle:
+			i.texture = warning_texture_off
+			toggle = false
+		else:
+			i.texture = warning_texture_on
+			toggle = true
 
 func hide_unhide_all_station(hide: bool):
 	for i in main_node.get_children():
