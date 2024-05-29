@@ -12,7 +12,7 @@ signal chiper(problems)
 signal keyboard_layout(layout)
 signal active_raid(duration)
 signal warning_raid(toggle)
-signal supply_drop_signal(x,y)
+signal supply_drop_signal(supply_object)
 signal morse(morse_object)
 
 var problem_timer := Timer.new()
@@ -22,6 +22,7 @@ var warning_raid_timer := Timer.new()
 var problems = []
 
 var layout = ["qwerty", "dvorak", "azerty"]
+var radio_type = ["weapon", "medicine", "shell"]
 
 func _ready():
 	problem_timer.paused = true
@@ -42,14 +43,17 @@ func _ready():
 	add_child(raid_timer)
 	add_child(warning_raid_timer)
 	
-	morse_message("o", 7)
-	morse_message("s", 7)
+	#morse_message("o", 7)
+	#morse_message("s", 7)
 	
-	chiper_message("hello")
-	chiper_message("word")
+	
+	#chiper_message("hello")
+	#chiper_message("word")
 	#raid_prep(5, 4)
-	supply_drop(5,6)
-	chiper_message("message")
+	#Maybe use a timer for duration and if not fail with it?!
+	supply_drop(5,6, radio_type[0])
+	supply_drop(4,3, radio_type[1])
+	#chiper_message("message")
 	
 
 
@@ -76,8 +80,8 @@ func raid_prep(raid_start, duration):
 	var raid_obj := Raid_Object.new(raid_start, duration)
 	problems.push_back(raid_obj)
 
-func supply_drop(x, y):
-	var supply_drop_obj := Supply_Drop.new(x,y)
+func supply_drop(x, y, type):
+	var supply_drop_obj := Supply_Drop.new(x,y, type)
 	problems.push_back(supply_drop_obj)
 
 func chiper_message(message: String):
@@ -110,7 +114,7 @@ func on_problem_timer_timeout():
 				print("Raid_send signal is unavailable")
 			problems.pop_front()
 		if current is Supply_Drop:
-			if emit_signal("supply_drop_signal", current.getX(), current.getY()) == ERR_UNAVAILABLE:
+			if emit_signal("supply_drop_signal", current) == ERR_UNAVAILABLE:
 				print("Supply_Drop signal is unavailable")
 			problems.pop_front()
 		if current is Morse:

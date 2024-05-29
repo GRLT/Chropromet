@@ -21,7 +21,7 @@ func getValue(x,y):
 func setValue(x, y, value):
 	range_check(x,y)
 
-	assert(!(getValue(x,y) != 0), "The current coordinate is " + str(array[x][y]) + "already populated")
+	#assert(!(getValue(x,y) != 0), "The current coordinate is " + str(array[x][y]) + "already populated")
 	
 	array[x][y] = value
 

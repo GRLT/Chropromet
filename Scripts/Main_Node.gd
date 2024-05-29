@@ -38,11 +38,13 @@ func _ready():
 	morse_button.pressed.connect(morse_button_pressed)
 	$MainGame/RuleBook.pressed.connect(rulebook_button_pressed)
 	$MainGame/GameStart.pressed.connect(gamestart_button_pressed)
+	$MainGame/Stations/Radio_Station/Radio_Button.pressed.connect(radio_button_pressed)
 	
 	morse.morse_back.connect(morse_back)
 	morse.morse_info.connect(morse_info)
 	map.map_back.connect(map_back)
 	raid_s.raid_back.connect(raid_button_back)
+	$RadioView.radio_back.connect(radio_back)
 
 	ProblemGenerator.connect("warning_raid", warning_raid)
 	chiper_view.connect("radio_info", radio_info)
@@ -131,6 +133,13 @@ func radio_info(problem_queue_size: int, active:bool):
 	chiper_station_counter.text = str(problem_queue_size)
 	#radio_station_bool.texture = chiper_station_texture_bool 
 
+func radio_back():
+	hide_unhide_with_expection(false, ["Raid_s", "Chiper", "Map", "Morse", "RadioView"])
+
+func radio_button_pressed():
+	hide_unhide_with_expection(true, ["RadioView"])
+	$RadioView/Radio_Camera.make_current()
+
 func morse_button_pressed():
 	hide_unhide_with_expection(true, ["Morse"])
 	morse_camera.make_current()
@@ -142,10 +151,10 @@ func raid_button_pressed():
 	
 
 func raid_button_back():
-	hide_unhide_with_expection(false, ["Raid_s", "Chiper", "Map", "Morse"])
+	hide_unhide_with_expection(false, ["Raid_s", "Chiper", "Map", "Morse", "RadioView"])
 
 func chiper_back():
-	hide_unhide_with_expection(false, ["Chiper"])
+	hide_unhide_with_expection(false, ["Raid_s", "Chiper", "Map", "Morse", "RadioView"])
 
 func chiper_button_pressed():
 	hide_unhide_with_expection(true, ["Chiper"])

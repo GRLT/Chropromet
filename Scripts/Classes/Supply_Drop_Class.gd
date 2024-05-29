@@ -2,10 +2,15 @@ class_name Supply_Drop
 
 var x
 var y
+var type
 
-func _init(_x, _y):
-	self.x = _x
-	self.y = _y
+func _init(x, y, type):
+	self.x = x
+	self.y = y
+	self.type = type
+
+func getType():
+	return type
 	
 func getX():
 	return x

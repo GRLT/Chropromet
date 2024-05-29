@@ -1,0 +1,131 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkn3igs7femg1"]
+
+[ext_resource type="Script" path="res://Scenes/Main_Scenes/Radio_View.gd" id="1_gmmju"]
+
+[node name="RadioView" type="Node2D"]
+script = ExtResource("1_gmmju")
+
+[node name="Radio_Camera" type="Camera2D" parent="."]
+position = Vector2(575, 323)
+
+[node name="Back" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 37.0
+offset_right = 194.0
+offset_bottom = 68.0
+text = "Back to main View!"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 513.0
+offset_top = 508.0
+offset_right = 644.0
+offset_bottom = 531.0
+text = "Radio VIew Label"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 194.0
+offset_top = 145.0
+offset_right = 293.0
+offset_bottom = 168.0
+text = "Supply Drop:"
+
+[node name="Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ButtonX" type="Button" parent="Container"]
+layout_mode = 2
+offset_left = 369.0
+offset_top = 68.0
+offset_right = 465.0
+offset_bottom = 145.0
+text = "|
+|
+V"
+
+[node name="ItemListX" type="ItemList" parent="Container"]
+layout_mode = 2
+offset_left = 369.0
+offset_top = 149.0
+offset_right = 464.0
+offset_bottom = 257.0
+select_mode = 1
+text_overrun_behavior = 0
+item_count = 7
+item_0/text = "0"
+item_1/text = "1"
+item_2/text = "2"
+item_3/text = "3"
+item_4/text = "4"
+item_5/text = "5"
+item_6/text = "6"
+
+[node name="Container2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ButtonY" type="Button" parent="Container2"]
+offset_left = 491.0
+offset_top = 68.0
+offset_right = 578.0
+offset_bottom = 145.0
+text = "|
+|
+V"
+
+[node name="ItemListY" type="ItemList" parent="Container2"]
+offset_left = 491.0
+offset_top = 149.0
+offset_right = 586.0
+offset_bottom = 257.0
+select_mode = 1
+item_count = 11
+item_0/text = "0"
+item_1/text = "1"
+item_2/text = "2"
+item_3/text = "3"
+item_4/text = "4"
+item_5/text = "5"
+item_6/text = "6"
+item_7/text = "7"
+item_8/text = "8"
+item_9/text = "9"
+item_10/text = "10"
+
+[node name="Container3" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ButtonType" type="Button" parent="Container3"]
+layout_mode = 0
+offset_left = 617.0
+offset_top = 68.0
+offset_right = 709.0
+offset_bottom = 145.0
+text = "|
+|
+V"
+
+[node name="ItemListType" type="ItemList" parent="Container3"]
+layout_mode = 0
+offset_left = 617.0
+offset_top = 151.0
+offset_right = 709.0
+offset_bottom = 253.0
+item_count = 3
+item_0/text = "Medicine"
+item_1/text = "Weapon"
+item_2/text = "Shell"
+
+[node name="Supply_Submit" type="Button" parent="."]
+offset_left = 733.0
+offset_top = 145.0
+offset_right = 796.0
+offset_bottom = 176.0
+text = "Submit"

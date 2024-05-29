@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cxjquiqv3dt2f"]
+[gd_scene load_steps=9 format=3 uid="uid://cxjquiqv3dt2f"]
 
 [ext_resource type="Script" path="res://Scripts/Main_Node.gd" id="1_pn7wj"]
 [ext_resource type="Texture2D" uid="uid://bvdtx8gt0sreq" path="res://Assets/Raid_Warning_0.png" id="2_fk04b"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cd4unbhsjnc7" path="res://Scenes/Main_Scenes/Raid.tscn" id="3_kg3ve"]
 [ext_resource type="PackedScene" uid="uid://dxf0mhbv4h3bx" path="res://Scenes/Main_Scenes/Map.tscn" id="5_k76r8"]
 [ext_resource type="PackedScene" uid="uid://cb4juftce1msi" path="res://Scenes/Main_Scenes/Morse.tscn" id="6_jjkbh"]
+[ext_resource type="PackedScene" uid="uid://dkn3igs7femg1" path="res://Scenes/Main_Scenes/Radio_View.tscn" id="7_6hcao"]
 [ext_resource type="PackedScene" uid="uid://brtwhwirk5f54" path="res://Scenes/Components/book.tscn" id="7_lcxqt"]
 
 [node name="Main_Node" type="Node2D"]
@@ -20,6 +21,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 111.0
 offset_bottom = 153.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Chiper_Station" type="Control" parent="MainGame/Stations"]
 anchors_preset = 0
@@ -80,7 +82,7 @@ offset_bottom = 85.0
 metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
 
-[node name="Button" type="Button" parent="MainGame/Stations/Radio_Station"]
+[node name="Radio_Button" type="Button" parent="MainGame/Stations/Radio_Station"]
 layout_mode = 1
 offset_right = 105.0
 offset_bottom = 31.0
@@ -102,6 +104,7 @@ layout_mode = 0
 offset_left = 60.0
 offset_right = 100.0
 offset_bottom = 23.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Morse_Button" type="Button" parent="MainGame/Stations/Morse_Station"]
 layout_mode = 1
@@ -154,4 +157,8 @@ position = Vector2(1233, -313)
 visible = false
 position = Vector2(-656, -1033)
 
+[node name="RadioView" parent="." instance=ExtResource("7_6hcao")]
+visible = false
+
 [node name="Book" parent="." instance=ExtResource("7_lcxqt")]
+visible = false
