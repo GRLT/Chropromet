@@ -12,9 +12,6 @@ enum qwerty_layout {q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m}
 enum dvorak_layout {p,y,f,g,c,r,l,a,o,e,u,i,d,h,t,n,s,q,j,k,x,b,m,w,v,z}
 
 #FIXME
-#Add more keyboard presets like QWERTY, AZERTY, DVORAK
-
-#FIXME
 #Input_Screen text is overflowing make it better please! [after overflow "..."]
 func _ready():
 	keyboard_state.pressed.connect(hide_reveal_keyboard)
