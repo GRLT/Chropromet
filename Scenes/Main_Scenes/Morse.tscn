@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://cb4juftce1msi"]
+
+[ext_resource type="Script" path="res://Scripts/Morse.gd" id="1_mximf"]
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_oivxg"]
+buffer_length = 10.0
+
+[node name="Morse" type="Node2D"]
+script = ExtResource("1_mximf")
+
+[node name="SoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamGenerator_oivxg")
+volume_db = -5.0
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 194.0
+offset_top = 142.0
+offset_right = 421.0
+offset_bottom = 267.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 531.0
+offset_top = 335.0
+offset_right = 626.0
+offset_bottom = 358.0
+text = "Morse Label"
+
+[node name="Morse_Camera" type="Camera2D" parent="."]
+position = Vector2(576, 322)
+
+[node name="Back" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 37.0
+offset_right = 194.0
+offset_bottom = 68.0
+text = "Back to main View!"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 550.0
+offset_top = 176.0
+offset_right = 872.0
+offset_bottom = 272.0
+
+[node name="Submit" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Submit"
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
+layout_mode = 2
+text = "o"
+max_length = 5

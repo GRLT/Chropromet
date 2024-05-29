@@ -26,6 +26,8 @@ wait_time = 10.0
 wait_time = 1.5
 
 [node name="Keyboard" parent="." instance=ExtResource("2_l532j")]
+offset_right = 47.0
+offset_bottom = 44.0
 
 [node name="Back" type="Button" parent="."]
 layout_mode = 0
