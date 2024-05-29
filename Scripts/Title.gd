@@ -13,9 +13,6 @@ func _ready():
 
 func start_button_pressed():
 	get_tree().change_scene_to_file("res://Scenes/Main_Scenes/Main_Node.tscn")
-	ProblemGenerator.problem_timer.paused = false
-	ProblemGenerator.signal_setup.paused = false
-	ProblemGenerator.raid_timer.paused = false
 	
 	
 func options_button_pressed():
