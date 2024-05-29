@@ -4,7 +4,7 @@
 
 [node name="Book" type="Window"]
 transparent_bg = true
-position = Vector2i(300, 250)
+position = Vector2i(300, 36)
 size = Vector2i(400, 400)
 unresizable = true
 script = ExtResource("1_5srv5")
@@ -20,21 +20,94 @@ grow_horizontal = 2
 alignment = 1
 
 [node name="Page_0" type="Label" parent="BoxContainer"]
+visible = false
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-text = "Main SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMainMain SceneMain SceneMain SceneMain SceneMain SceneMain Scene SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain Scene"
+text = "Main Scene
+
+In this scene you can, visit each station, to check out each minigame. You don't have to worry the game only start If you press the start button."
+horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 1
+autowrap_mode = 3
 
 [node name="Page_1" type="Label" parent="BoxContainer"]
 visible = false
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-text = "asdasdsadads"
+text = "Morse Game
+
+In this game you're primary objecive is to decoded whatever you're hearing!
+
+While a raid is ongoing, the timer will stop!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="Page_2" type="Label" parent="BoxContainer"]
 visible = false
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-text = "Page2-text"
+theme_override_font_sizes/font_size = 23
+text = "A •-	|	B -•••	|	C -•-• 
+D -••	|	E •		|	F ••--•
+G --•	|	H ••••	|	I ••
+J •---	|	K -•-	|	L •-••
+M --	|	N -•	|	N -•
+O ---	|	P •--•	|	Q --•-
+R •-•	|	S •••	|	T -
+U ••-	|	V •••-	|	W •--
+X -••-	|	Y -•--	|	Z --••
+"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Page_3" type="Label" parent="BoxContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+text = "Raid
+
+Randomly raids can occurs, in which case you'll have to get into a bunker. You can achieve this by clicking on \"raid\" in the main scene
+
+When a raid is concluded text prompt will alert you, and you can safely lave. If you leave earlier that's game over!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Page_4" type="Label" parent="BoxContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+text = "Chiper Game
+
+In the chipergame your main objective is to translate the text back into it's original form, you'll recive a device that makes this less tidious. 
+The encryption method is shifting the alphabet. While a raid is onging the timer will stop!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Page_5" type="Label" parent="BoxContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+text = "Map
+
+The map will provide information for the radio, in here you need to read out the coordinates,type of supply and supply it to radio (TODO, enemies)
+When you successfully managed to guess the right tile a checkmark will be placed!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Page_6" type="Label" parent="BoxContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+text = "Radio
+
+In the radio scene you can complete supply drops (todo enemies), and you'll be able to do another minigame WIP"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="Next_Page" type="Button" parent="."]
 anchors_preset = 3
