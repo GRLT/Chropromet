@@ -3,15 +3,21 @@ extends Window
 var page_counter = 0
 var page_max_size = 0
 @onready var container = $BoxContainer
-
+@onready var book := get_node(".")
 
 func _ready():
 	$Next_Page.pressed.connect(next_page_pressed)
 	$Back_Page.pressed.connect(back_page_pressed)
+	book.close_requested.connect(book_close_requested)
+	
+	
 	#hide_all_page(container)
 	hide_all_page_with_expection(container, 0)
 	page_max_size = $BoxContainer.get_child_count() - 1
 	
+func book_close_requested():
+	book.hide()
+
 	
 func next_page_pressed():
 	if page_counter >= page_max_size:
