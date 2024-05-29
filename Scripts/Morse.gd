@@ -6,6 +6,7 @@ signal morse_back
 signal morse_info(pool_size)
 signal morse_status(status)
 
+var raid_timer := Timer.new()
 @onready var back = $Back
 
 #Limit the length beacuse the AudioStreamGenerator buffer dies
@@ -67,6 +68,8 @@ func _ready():
 	back.pressed.connect(back_button_pressed)
 	$HBoxContainer/Submit.pressed.connect(submit_button_pressed)
 	ProblemGenerator.morse.connect(morse_arrive)
+	ProblemGenerator.active_raid.connect(raid)
+	raid_timer.timeout.connect(raid_timer_timeout)
 
 	$SoundPlayer.stream.mix_rate = sample_hz
 	$SoundPlayer.play()
@@ -79,11 +82,26 @@ func _ready():
 	timer.wait_time = 0.5
 	timer.timeout.connect(timer_timeout)
 	
+	add_child(raid_timer)
+	
 	get_node(".").add_child(duration_timer)
 	duration_timer.timeout.connect(duration_timer_timeout)
 	
+func raid_timer_timeout():
+	timer.start()
+	duration_timer.start()
+
+func raid(duration):
+	print("stopping morse")
+	raid_timer.start(duration)
+	timer.stop()
+	duration_timer.stop()
+
 	
 func submit_button_pressed():
+	if current_morse_problem == null:
+		return
+		
 	if $HBoxContainer/LineEdit.text == current_morse_problem.getMessage():
 		print("Success")
 		emit_signal("morse_success")
@@ -92,6 +110,7 @@ func submit_button_pressed():
 		print("Fail")
 		duration_timer_timeout()
 		emit_signal("morse_fail")
+	$HBoxContainer/LineEdit.text = ""
 	
 var current_morse_problem
 func duration_timer_timeout():
