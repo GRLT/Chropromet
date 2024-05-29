@@ -4,7 +4,7 @@ extends Node
 #between instructions. This should be the game.
 #
 
-const TIME_BETWEEN_PROBLEMS = 4
+const TIME_BETWEEN_PROBLEMS = 1
 const WARNING_RAID_TIMER = 3
 
 
@@ -13,6 +13,7 @@ signal keyboard_layout(layout)
 signal active_raid(duration)
 signal warning_raid(toggle)
 signal supply_drop_signal(x,y)
+signal morse(morse_object)
 
 var problem_timer := Timer.new()
 var signal_setup := Timer.new()
@@ -41,13 +42,16 @@ func _ready():
 	add_child(raid_timer)
 	add_child(warning_raid_timer)
 	
+	morse_message("o", 7)
+	morse_message("s", 7)
 	
 	chiper_message("hello")
 	chiper_message("word")
-	raid_prep(5, 4)
+	#raid_prep(5, 4)
 	supply_drop(5,6)
 	chiper_message("message")
 	
+
 
 func raid_send(raid_start, duration):
 	#print("Starting warning timer")
@@ -81,10 +85,13 @@ func chiper_message(message: String):
 	var chiper_obj := Caesar_Shift_Object.new(message, 20)
 	problems.push_back(chiper_obj)
 	
+func morse_message(message: String, duration: int):
+	var morse_obj := Morse.new(message, duration)
+	problems.push_back(morse_obj)
+	
 func raid_timer_timeout(duration):
 	if emit_signal("active_raid", duration) == ERR_UNAVAILABLE:
 		push_warning("Failed to send active_raid signal!")
-
 
 	
 func setup():
@@ -95,15 +102,21 @@ func on_problem_timer_timeout():
 	if problems.size() > 0:
 		var current = problems[0]
 		if current is Caesar_Shift_Object:
-			emit_signal("chiper", current)
+			if emit_signal("chiper", current) == ERR_UNAVAILABLE:
+				print("Chiper signal is unavailable")
 			problems.pop_front()
 		if current is Raid_Object:
-			raid_send(current.getRaidStart(), current.getDuration())
+			if raid_send(current.getRaidStart(), current.getDuration()) == ERR_UNAVAILABLE:
+				print("Raid_send signal is unavailable")
 			problems.pop_front()
 		if current is Supply_Drop:
-			emit_signal("supply_drop_signal", current.getX(), current.getY())
+			if emit_signal("supply_drop_signal", current.getX(), current.getY()) == ERR_UNAVAILABLE:
+				print("Supply_Drop signal is unavailable")
 			problems.pop_front()
-
+		if current is Morse:
+			if emit_signal("morse", current) == ERR_UNAVAILABLE:
+				print("Morse signal is unavailable")
+			problems.pop_front()
 	
 
 
