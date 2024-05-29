@@ -3,6 +3,8 @@
 extends Node
 
 signal morse_back
+signal morse_info(pool_size)
+signal morse_status(status)
 
 @onready var back = $Back
 
@@ -93,6 +95,9 @@ func submit_button_pressed():
 	
 var current_morse_problem
 func duration_timer_timeout():
+	if emit_signal("morse_info", morse_problem_buf.size()) == ERR_UNAVAILABLE:
+		print("Failed to send morse_info signal!")
+		
 	current_morse_problem = null
 	morse_code_buf = []
 	morse_code = []
@@ -105,6 +110,7 @@ func duration_timer_timeout():
 		duration_timer.start(current_morse_problem.getDuration())
 	else:
 		duration_timer.stop()
+
 
 
 	#emit stat back

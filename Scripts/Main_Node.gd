@@ -40,6 +40,7 @@ func _ready():
 	$MainGame/GameStart.pressed.connect(gamestart_button_pressed)
 	
 	morse.morse_back.connect(morse_back)
+	morse.morse_info.connect(morse_info)
 	map.map_back.connect(map_back)
 	raid_s.raid_back.connect(raid_button_back)
 
@@ -51,6 +52,9 @@ func _ready():
 
 	add_child(switcher)
 	
+func morse_info(pool_size):
+	$MainGame/Stations/Morse_Station/Morse_Station_Counter.text = str(pool_size)
+
 func gamestart_button_pressed():
 	ProblemGenerator.problem_timer.paused = false
 	ProblemGenerator.signal_setup.paused = false
