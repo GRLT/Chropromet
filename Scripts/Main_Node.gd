@@ -27,6 +27,8 @@ extends Node2D
 @onready var raid_camera = $Raid_s/RaidCamera
 @onready var raid_s = $Raid_s
 
+@onready var book = get_node("Book")
+
 var switcher := Timer.new()
 
 func _ready():
@@ -45,7 +47,7 @@ func _ready():
 	chiper_view.connect("radio_info", radio_info)
 	chiper_view.connect("chiper_back", chiper_back)
 
-	get_node("Book").hide()
+	book.hide()
 
 	add_child(switcher)
 	
@@ -61,14 +63,12 @@ func morse_back():
 func map_back():
 	hide_unhide_with_expection(false, ["Raid_s", "Chiper", "Map"])
 
-var book_toggle = false
+
 func rulebook_button_pressed():
-	if book_toggle:
+	if !book.visible:
 		$Book.show()
-		book_toggle = false
 	else:
 		$Book.hide()
-		book_toggle = true
 	
 func map_button_pressed():
 	hide_unhide_with_expection(true, ["Map"])
