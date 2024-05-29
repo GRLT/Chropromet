@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=3 uid="uid://brtwhwirk5f54"]
+
+[ext_resource type="Script" path="res://Scenes/Components/book.gd" id="1_5srv5"]
+
+[node name="Book" type="Window"]
+transparent_bg = true
+position = Vector2i(300, 250)
+size = Vector2i(400, 400)
+unresizable = true
+script = ExtResource("1_5srv5")
+
+[node name="BoxContainer" type="BoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="Page_0" type="Label" parent="BoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+text = "Main SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain SceneMainMain SceneMain SceneMain SceneMain SceneMain SceneMain Scene SceneMain SceneMain SceneMain SceneMain SceneMain SceneMain Scene"
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="Page_1" type="Label" parent="BoxContainer"]
+visible = false
+layout_mode = 2
+text = "asdasdsadads"
+
+[node name="Page_2" type="Label" parent="BoxContainer"]
+visible = false
+layout_mode = 2
+text = "Page2-text"
+
+[node name="Next_Page" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Next"
+
+[node name="Back_Page" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 45.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Back"

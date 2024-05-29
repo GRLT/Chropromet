@@ -34,6 +34,8 @@ func _ready():
 	map_button.pressed.connect(map_button_pressed)
 	raid_button.pressed.connect(raid_button_pressed)
 	morse_button.pressed.connect(morse_button_pressed)
+	$MainGame/RuleBook.pressed.connect(rulebook_button_pressed)
+	$MainGame/GameStart.pressed.connect(gamestart_button_pressed)
 	
 	morse.morse_back.connect(morse_back)
 	map.map_back.connect(map_back)
@@ -43,16 +45,31 @@ func _ready():
 	chiper_view.connect("radio_info", radio_info)
 	chiper_view.connect("chiper_back", chiper_back)
 
-
+	get_node("Book").hide()
 
 	add_child(switcher)
+	
+func gamestart_button_pressed():
+	ProblemGenerator.problem_timer.paused = false
+	ProblemGenerator.signal_setup.paused = false
+	ProblemGenerator.raid_timer.paused = false
+	$MainGame/GameStart.queue_free()
+	
 func morse_back():
 	hide_unhide_with_expection(false, ["Raid_s", "Chiper", "Map", "Morse"])
 
 func map_back():
 	hide_unhide_with_expection(false, ["Raid_s", "Chiper", "Map"])
 
-
+var book_toggle = false
+func rulebook_button_pressed():
+	if book_toggle:
+		$Book.show()
+		book_toggle = false
+	else:
+		$Book.hide()
+		book_toggle = true
+	
 func map_button_pressed():
 	hide_unhide_with_expection(true, ["Map"])
 	map_camera.make_current()
