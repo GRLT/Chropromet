@@ -12,12 +12,22 @@ config_version=5
 
 config/name="Chropromet"
 run/main_scene="res://Scenes/Main_Scenes/Title.tscn"
-config/features=PackedStringArray("4.2", "Forward Plus")
+config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 ProblemGenerator="*res://Scripts/Problem_Generator.gd"
+
+[debug]
+
+gdscript/warnings/shadowed_variable=0
+gdscript/warnings/untyped_declaration=2
+gdscript/warnings/unsafe_property_access=2
+gdscript/warnings/unsafe_method_access=2
+gdscript/warnings/unsafe_call_argument=2
+gdscript/warnings/assert_always_true=0
+gdscript/warnings/assert_always_false=0
 
 [display]
 

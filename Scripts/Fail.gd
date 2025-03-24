@@ -1,10 +1,11 @@
 extends Control
 
-@onready var exit_button = $CanvasLayer/Exit
-
-func _ready():
-	exit_button.pressed.connect(exit_button_pressed)
+@onready var exit_button: Button = $CanvasLayer/Exit
 
 
-func exit_button_pressed():
-	get_tree().quit()
+func _ready() -> void:
+    exit_button.pressed.connect(exit_button_pressed)
+
+
+func exit_button_pressed() -> void:
+    get_tree().quit()

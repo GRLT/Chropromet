@@ -1,47 +1,50 @@
 extends Window
+class_name Book
 
-var page_counter = 0
-var page_max_size = 0
-@onready var container = $BoxContainer
-@onready var book := get_node(".")
+var page_counter: int = 0
+var page_max_size: int = 0
+@onready var container: BoxContainer = $BoxContainer
+@onready var book: Window = get_node(".")
 
-func _ready():
-	$Next_Page.pressed.connect(next_page_pressed)
-	$Back_Page.pressed.connect(back_page_pressed)
-	book.close_requested.connect(book_close_requested)
-	
-	
-	#hide_all_page(container)
-	hide_all_page_with_expection(container, 0)
-	page_max_size = $BoxContainer.get_child_count() - 1
-	
-func book_close_requested():
-	book.hide()
 
-	
-func next_page_pressed():
-	if page_counter >= page_max_size:
-		return
-	page_counter += 1
-	hide_all_page_with_expection(container, page_counter)
+func _ready() -> void:
+    ($Next_Page as Button).pressed.connect(
+        func() -> void:
+            if page_counter >= page_max_size:
+                return
+            page_counter += 1
+            hide_all_page_with_expection(container, page_counter)
+    )
 
-func back_page_pressed():
-	if page_counter <= 0:
-		return
-	page_counter -= 1
-	hide_all_page_with_expection(container, page_counter)
+    ($Back_Page as Button).pressed.connect(
+        func() -> void:
+            if page_counter <= 0:
+                return
+            page_counter -= 1
+            hide_all_page_with_expection(container, page_counter)
+    )
 
-func hide_all_page(container: BoxContainer):
-	for i:Label in container.get_children():
-		i.hide()
+    book.close_requested.connect(func() -> void: book.hide())
 
-var counter = 0
-func hide_all_page_with_expection(container: BoxContainer, exception: int):
-	counter = 0
-	for i:Label in container.get_children():
-		if counter == exception:
-			i.visible = true
-			counter = counter + 1
-			continue
-		counter = counter + 1
-		i.visible = false
+    #hide_all_page(container)
+    hide_all_page_with_expection(container, 0)
+    page_max_size = $BoxContainer.get_child_count() - 1
+
+
+func hide_all_page(container: BoxContainer) -> void:
+    for i: Label in container.get_children():
+        i.hide()
+
+
+var counter: int = 0
+
+
+func hide_all_page_with_expection(container: BoxContainer, exception: int) -> void:
+    counter = 0
+    for i: Label in container.get_children():
+        if counter == exception:
+            i.visible = true
+            counter = counter + 1
+            continue
+        counter = counter + 1
+        i.visible = false

@@ -1,13 +1,17 @@
 class_name Raid_Object
 
-var raid_start
-var duration
-func _init(_raid_start, _duration):
+var raid_start: float
+var duration: float
+
+
+func _init(_raid_start: float, _duration: float) -> void:
 	self.raid_start = _raid_start
 	self.duration = _duration
 
-func getDuration():
+
+func getDuration() -> float:
 	return duration
-	
-func getRaidStart():
+
+
+func getRaidStart() -> float:
 	return raid_start

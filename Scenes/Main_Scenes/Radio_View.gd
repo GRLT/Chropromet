@@ -1,87 +1,89 @@
+class_name Radio_View
 extends Node2D
 
 signal radio_back
-signal correct_supply(x,y)
+signal correct_supply(x: int, y: int)
 
-@onready var itemListX = $Container/ItemListX
-@onready var itemListY = $Container2/ItemListY
-@onready var itemListType = $Container3/ItemListType
+@onready var itemListX: ItemList = $Container/ItemListX
+@onready var itemListY: ItemList = $Container2/ItemListY
+@onready var itemListType: ItemList = $Container3/ItemListType
 
-var supply_buffer = []
-
-func _ready():
-	$Container/ButtonX.pressed.connect(buttonX_pressed)
-	$Container2/ButtonY.pressed.connect(buttonY_pressed)
-	$Container3/ButtonType.pressed.connect(buttonType_pressed)
-	$Back.pressed.connect(back_button_pressed)
-	$Supply_Submit.pressed.connect(submit_button_pressed)
-
-	ProblemGenerator.supply_drop_signal.connect(supply_arrive)
-
-	itemListX.visible = false
-	itemListY.visible = false
-	itemListType.visible = false
+var supply_buffer: Array[Supply_Drop] = []
 
 
-func supply_arrive(supply_object):
-	supply_buffer.append(supply_object)
+func _ready() -> void:
+    ($Container/ButtonX as Button).pressed.connect(
+    #TODO consider move this in a function
+        func() -> void:
+        if itemListX.visible:
+            itemListX.visible = false
+        else:
+            itemListX.visible = true
+    ) 
+    
+    ($Container2/ButtonY as Button).pressed.connect( 
+    #TODO consider move this in a function
+        func() -> void:
+        if itemListY.visible:
+            itemListY.visible = false
+        else:
+            itemListY.visible = true
+    )
+    
+    ($Container3/ButtonType as Button).pressed.connect(
+        func() -> void:
+        if itemListType.visible:
+            itemListType.visible = false
+        else:
+            itemListType.visible = true
+    )
+    
+    ($Back as Button).pressed.connect(
+        func() -> void:
+        var main_scene: Node2D = get_node("/root/Main_Node/MainGame")
+        if main_scene != null:
+            var main_camera: Camera2D = main_scene.get_node("Main_Camera")
+            main_camera.make_current()
+        radio_back.emit()
+    )
+    
+    ($Supply_Submit as Button).pressed.connect(submit_button_pressed)
 
-func submit_button_pressed():
-	
-	if itemListX.get_selected_items().size() == 0:
-		print("ItemListX isn't selected")
-		itemListX.add_theme_color_override("font_color", Color.RED)
-		return
-	itemListX.add_theme_color_override("font_color", Color.WHITE)
-		
-	if itemListY.get_selected_items().size() == 0:
-		print("ItemListY isn't selected")
-		itemListY.add_theme_color_override("font_color", Color.RED)
-		return 
-	itemListY.add_theme_color_override("font_color", Color.WHITE)
-		
-	if itemListType.get_selected_items().size() == 0:
-		print("ItemListType isn't selected")
-		itemListType.add_theme_color_override("font_color", Color.RED)
-		return
-	itemListType.add_theme_color_override("font_color", Color.WHITE)
+    ProblemGenerator.supply_drop_signal.connect(
+        func(supply_object: Supply_Drop) -> void:
+        supply_buffer.append(supply_object)
+    )
 
-	var y = int(itemListY.get_item_text(itemListY.get_selected_items()[0])) - 1
-	var x = int(itemListX.get_item_text(itemListX.get_selected_items()[0])) - 1
-	var type = itemListType.get_item_text(itemListType.get_selected_items()[0]).to_lower()
-	print(x, " ",y)
-	
-	for i:Supply_Drop in supply_buffer:
-		if x == i.getX() && y == i.getY() && type == i.getType():
-			if emit_signal("correct_supply", i.getX(), i.getY()) == ERR_UNAVAILABLE:
-				print("Failed to send warning_raid signal!")
-			return
-	print("fail")
+    itemListX.visible = false
+    itemListY.visible = false
+    itemListType.visible = false
 
+func submit_button_pressed() -> void:
+    if itemListX.get_selected_items().size() == 0:
+        print("ItemListX isn't selected")
+        itemListX.add_theme_color_override("font_color", Color.RED)
+        return
+    itemListX.add_theme_color_override("font_color", Color.WHITE)
 
-func back_button_pressed():
-		
-	var main_scene = get_node("/root/Main_Node/MainGame")
-	if main_scene != null:
-		main_scene.get_node("Main_Camera").make_current()
-	
-	if emit_signal("radio_back") == ERR_UNAVAILABLE:
-		print("radio_back signal failed with ERR_UNAVAILABLE")
+    if itemListY.get_selected_items().size() == 0:
+        print("ItemListY isn't selected")
+        itemListY.add_theme_color_override("font_color", Color.RED)
+        return
+    itemListY.add_theme_color_override("font_color", Color.WHITE)
 
-func buttonType_pressed():
-	if itemListType.visible:
-		itemListType.visible = false
-	else:
-		itemListType.visible = true
+    if itemListType.get_selected_items().size() == 0:
+        print("ItemListType isn't selected")
+        itemListType.add_theme_color_override("font_color", Color.RED)
+        return
+    itemListType.add_theme_color_override("font_color", Color.WHITE)
 
-func buttonX_pressed():
-	if itemListX.visible:
-		itemListX.visible = false
-	else:
-		itemListX.visible = true
-	
-func buttonY_pressed():
-	if itemListY.visible:
-		itemListY.visible = false
-	else:
-		itemListY.visible = true
+    var y: int = int(itemListY.get_item_text(itemListY.get_selected_items()[0])) - 1
+    var x: int = int(itemListX.get_item_text(itemListX.get_selected_items()[0])) - 1
+    var type: String = itemListType.get_item_text(itemListType.get_selected_items()[0]).to_lower()
+    print(x, " ", y)
+
+    for i: Supply_Drop in supply_buffer:
+        if x == i.getX() && y == i.getY() && type == i.getType():
+            correct_supply.emit(i.getX(), i.getY())
+            return
+    print("fail")
