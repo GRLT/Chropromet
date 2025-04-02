@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://cb4juftce1msi"]
+[gd_scene load_steps=6 format=3 uid="uid://cb4juftce1msi"]
 
 [ext_resource type="Script" path="res://Scripts/Morse.gd" id="1_mximf"]
 [ext_resource type="Texture2D" uid="uid://bvdtx8gt0sreq" path="res://Assets/Raid_Warning_0.png" id="2_8fy8v"]
+[ext_resource type="Shader" path="res://Assets/Shaders/Line.gdshader" id="3_tdbyw"]
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_oivxg"]
 buffer_length = 10.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x18ar"]
+shader = ExtResource("3_tdbyw")
 
 [node name="Morse" type="Node2D"]
 script = ExtResource("1_mximf")
@@ -57,3 +61,8 @@ offset_left = 1074.0
 offset_right = 1154.0
 offset_bottom = 80.0
 texture = ExtResource("2_8fy8v")
+
+[node name="Wave" type="Line2D" parent="."]
+material = SubResource("ShaderMaterial_x18ar")
+width = 20.0
+default_color = Color(0, 0.572549, 0, 1)

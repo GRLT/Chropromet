@@ -2,14 +2,14 @@
 
 extends Node
 
-signal morse_back
-signal morse_info(pool_size: int)
 
-var raid_timer := Timer.new()
 @onready var back: Button = $Back
+@onready var morse: Node2D = get_node(".")
+@onready var input_box: LineEdit = $HBoxContainer/LineEdit
+const wait_time_between_problems = 2
 
-#Limit the length beacuse the AudioStreamGenerator buffer dies
-#Either incrase the buffer size or keep it in range (~450<)
+
+#LIMIT FRAMES, EXCESSIVE CPU USE!!!
 const LENGTH = 300
 enum morse_type { DOT = 1, DASH = 2, EMPTY = 3, CHAR_SEP = 4, WORD_SEP = 5 }
 #Spaces between the dot/dash are hardcoded
@@ -46,113 +46,99 @@ enum char_to_morse {
 }
 
 #Be carefull don't use high sample rate
-var sample_hz: float = 1000.0
-var pulse_hz: float = 450.0
-var phase: float = 0.0
-var playback: AudioStreamGeneratorPlayback = null
-var morse_code: Array = []
-var morse_code_buf: Array = []
-var morse_problem_buf := []
+var sample_hz: float = 5000.0
+var pulse_hz: float = 200.0
+var phase: float = 80
 
-var timer := Timer.new()
-var duration_timer := Timer.new()
+var playback: AudioStreamGeneratorPlayback = null #
+var morse_code: Array = [] #1 OR 2 SINGLE INTEGER
+var morse_code_buf: Array = [] #SEQUENCE OF [1,2,3,1,2]
+var morse_problem_buf := [] #MORSE PROBLEM OBJ
+
+var frame_timer := Timer.new()
+var timeout_timer := Timer.new()
 
 
 
+@onready var sound_player: AudioStreamPlayer = $SoundPlayer
+
+var first_iteration: bool = true
+func morse_arrive(morse_object: Morse) -> void:
+    print("A new Morse Object arrived from Problem Generator")
+    morse_problem_buf.append(morse_object)
+    if first_iteration:
+        timeout_timer.start(0.5)
+        first_iteration = false
 
 func _ready() -> void:
-    back.pressed.connect(back_button_pressed)
+    get_node(".").add_child(timeout_timer)
+    timeout_timer.timeout.connect(timeout_timer_timeout)   
+    back.pressed.connect(
+        func() -> void:
+        push_warning("TODO")
+        )
     ($HBoxContainer/Submit as Button).pressed.connect(
     func()-> void:
-        if current_morse_problem == null:
-            (get_node("/root/Main_Node/MainGame/Main_Camera") as Camera2D).make_current()
+            if morse_code_buf.size() > 0:
+                if current_morse_problem.getMessage() == input_box.text:
+                    print_rich("[color=green]Good job!")
+                else:
+                    print_rich("[color=red]You failed!")
+                if morse_code_buf.front() == null:
+                    print("Empty morse buffer!")
+            next_morse_problem()
     )
-    
     ProblemGenerator.morse.connect(morse_arrive)
-    ProblemGenerator.active_raid.connect(raid)
-    raid_timer.timeout.connect(raid_timer_timeout)
 
-    var sound_player: AudioStreamPlayer = $SoundPlayer
     #ALERT
     @warning_ignore("unsafe_property_access")
     sound_player.stream.mix_rate = sample_hz
     sound_player.play()
     playback = sound_player.get_stream_playback()
-    #sound_player.set_volume_db(-1000.0)
+    sound_player.set_volume_db(-20.0)
     
     
-    get_node(".").add_child(timer)
-    timer.start(0)
+    get_node(".").add_child(frame_timer)
+    frame_timer.start(0)
     #Around 0.4 resonable
-    timer.wait_time = 0.6
-    timer.timeout.connect(timer_timeout)
-
-    add_child(raid_timer)
-
-    get_node(".").add_child(duration_timer)
-    duration_timer.timeout.connect(duration_timer_timeout)
-
+    frame_timer.wait_time = 0.4
+    frame_timer.timeout.connect(frame_timer_timeout)
     
 
+    morse_arrive(Morse.new("g", 5))
 
-func raid_timer_timeout() -> void:
-    timer.start()
-    duration_timer.start()
-
-
-func raid(duration: float) -> void:
-    print("stopping morse")
-    raid_timer.start(duration)
-    timer.stop()
-    duration_timer.stop()
-
-
-
-    if ($HBoxContainer/LineEdit as LineEdit).text == current_morse_problem.getMessage():
-        print("Success")
-        emit_signal("morse_success")
-        duration_timer_timeout()
-    else:
-        print("Fail")
-        duration_timer_timeout()
-        emit_signal("morse_fail")
-    ($HBoxContainer/LineEdit as LineEdit).text = ""
-
-
-var current_morse_problem: Morse
-
-
-func duration_timer_timeout() -> void:
-    morse_info.emit(morse_problem_buf.size())
-
-    current_morse_problem = null
-    morse_code_buf = []
-    print("duration timed out!")
-    print(morse_code_buf)
+var first: bool = false
+var current_morse_problem: Morse = null
+func timeout_timer_timeout() -> void:    
     if morse_problem_buf.size() != 0:
         current_morse_problem = morse_problem_buf.pop_front()
-        print("switching")
         morse_code_buf = str_to_morse(current_morse_problem.getMessage()).duplicate()
-        duration_timer.start(current_morse_problem.getDuration())
+        print("Switching to next Morse Chiper")
+        
+        if !sound_player.playing:
+            sound_player.play()
+            playback = sound_player.get_stream_playback()
+        timeout_timer.start(current_morse_problem.getDuration())
+        if first:
+            frame_timer.wait_time = 2
+            first = true
     else:
-        duration_timer.stop()
-
-    #emit stat back
-
-
-var first_iteration: bool = true
+        next_morse_problem()
+        
 
 
-func morse_arrive(morse_object: Morse) -> void:
-    morse_problem_buf.append(morse_object)
-    if first_iteration:
-        duration_timer.start(0)
-        first_iteration = false
+func next_morse_problem() -> void:
+    timeout_timer.wait_time = wait_time_between_problems
+    timeout_timer.start()
+    sound_player.stop()
+    morse_code = []
+    morse_code_buf = []
+    draw_standing()
+    morse.queue_redraw()
+
 
 
 @warning_ignore("unsafe_method_access")
-
-
 func _fill_buffer(dot_dash: int) -> void:
     var increment: float = pulse_hz / sample_hz
     var local_length: int
@@ -172,28 +158,29 @@ func _fill_buffer(dot_dash: int) -> void:
         5:
             local_length = LENGTH * 7
             increment = 0
-    print(dot_dash, " ", local_length)
-
+            
     while local_length > 0:
-        playback.push_frame(Vector2(1, 1) * phase)
-        phase = fmod(phase + increment, 1.0)
+        phase = fmod(phase + increment, 0.2)
+        playback.push_frame(Vector2(3, 3) * phase * TAU)
         local_length -= 1
-    timer.start()
+    frame_timer.start()
 
 
 func str_to_morse(str_l: String) -> Array:
     var accumulator := []
-    var char_code: String
-
+    var char_code: Variant
+    
     str_l = str_l.to_lower()
 
     for i in len(str_l):
         if str_l[i] != " ":
-            char_code = str(char_to_morse.get(str_l[i]))
+            char_code = char_to_morse.get(str_l[i])
+        #IF I CAST CHAR_CODE ABOVE TO STR THE BELOW CHECK REFUSE TO WORK
         if char_code == null:
-            print("missing charachter ", str_l[i], " skipping")
+            print("missing charachter \"", str_l[i], "\" skipping")
             break
-
+            
+        char_code = str(char_code)
         for k in len(char_code):
             accumulator.append(char_code[k])
             if k == len(char_code) - 1:
@@ -207,26 +194,70 @@ func str_to_morse(str_l: String) -> Array:
     return accumulator
 
 
-@warning_ignore("unsafe_method_access")
 
+var playing_morse_code: String = ""
+@warning_ignore("unsafe_method_access", "unsafe_property_access")
+func frame_timer_timeout() -> void:
+    frame_timer.wait_time = 0.4
 
-func timer_timeout() -> void:
     if morse_code.size() != 0:
-        #ALERT This is bad, converstion has to happen in a seperate variable because of type Variant
-        var temp: String = morse_code.pop_front()
-        _fill_buffer(int(temp))
+        morse.queue_redraw()
+        playing_morse_code = morse_code.pop_front()
+        _fill_buffer(int(playing_morse_code))
         ($Label2 as Label).text = "Sequence in progress!"
-    else:
-        if morse_code_buf.size() > 0:
+    elif morse_code_buf.size() > 0:
             morse_code = (morse_code_buf.duplicate() as Array)
             ($Label2 as Label).text = "Starting Sequence!"
 
 
-func back_button_pressed() -> void:
-    ($SoundPlayer as AudioStreamPlayer).set_volume_db(-1000.0)
 
-    var main_scene: Node2D = get_node("/root/Main_Node/MainGame")
-    if main_scene != null:
-        (main_scene.get_node("Main_Camera") as Camera2D).make_current()
 
-    morse_back.emit("morse_back")
+var counter:int = 0
+var func_value_a:int = 0 
+var func_value_b:int = 0
+var x_scale:int = 100
+var x_offset:int = 500
+var y_offset:int = 400
+@onready var line2d:Line2D = $Wave
+func draw_trinagle() -> void:
+ for i in range(-10,10,1):
+            func_value_a = 0
+            if i < 1:
+                func_value_a = 1 - abs(i)
+            var max_val:int = max(func_value_a, func_value_b)
+            line2d.add_point(Vector2(i*x_scale+x_offset, -max_val*100+y_offset),counter)
+            counter += 1
+
+func draw_standing() -> void:
+    for i in range(-10,10,1):
+            line2d.add_point( Vector2(i*x_scale+x_offset, 0+y_offset),counter)
+            counter += 1
+
+func draw_climb() -> void:
+    var x:int = 0
+    for i in range(-10,10,1):
+            if i >= 2 && i <= 10:
+                x = -150
+                line2d.add_point(Vector2(i*x_scale+350, x+y_offset),counter)
+            else:
+                x = 1
+                line2d.add_point(Vector2(i*x_scale+350, 5+y_offset),counter)
+            counter += 1
+
+func _draw() -> void:
+    line2d.clear_points()
+    if sound_player.playing:
+        match int(playing_morse_code):
+            morse_type.DOT:
+                draw_trinagle()
+            morse_type.DASH:
+                 draw_climb()
+            morse_type.EMPTY:
+                draw_standing()
+            morse_type.CHAR_SEP:
+                draw_standing()
+            _:
+                draw_standing()
+    else:
+        draw_standing()
+    return
