@@ -1,10 +1,6 @@
 extends Node
 
-#Each day(maps) should have different instructions with different time
-#between instructions. This should be the game.
-#
-
-const TIME_BETWEEN_PROBLEMS = 1
+const TIME_BETWEEN_PROBLEMS = 5 
 const WARNING_RAID_TIMER = 3
 
 
@@ -16,26 +12,48 @@ signal active_raid(duration: float)
 signal warning_raid(toggle: bool)
 signal supply_drop_signal(supply_object: Supply_Drop)
 signal morse(morse_object: Morse)
+signal load_map(data: Array)
 
 var problem_timer := Timer.new()
 var signal_setup := Timer.new()
+
 var raid_timer := Timer.new()
 var warning_raid_timer := Timer.new()
+
 var problems: Array[Object] = []
 
 var layout: Array[String] = ["qwerty", "dvorak", "azerty"]
 var radio_type: Array[String] = ["weapon", "medicine", "shell"]
 
-
+@warning_ignore("unreachable_code")
 func _ready() -> void:
-    problem_timer.paused = true
-    signal_setup.paused = true
-    raid_timer.paused = true
+    # TODO
+    # DELETE_ME, this is just to remove junk while 
+    # creating new stuff, but maybe this is just 
+    # neat, and I should leave it here
+    #var root := get_node("../Main_Node")
 
+    timer_for_problem_gen()
+    
+    load_map.connect(
+        func(data: Array) -> void:
+            load_from_file(data)
+    )
+        
+
+func timer_for_problem_gen() -> void:
+    problem_timer.paused = true
+    problem_timer.name = "problem_timer"
+    signal_setup.paused = true
+    signal_setup.name = "signal_setup"
+    raid_timer.paused = true
+    raid_timer.name = "raid_timer"
+    
     add_child(problem_timer)
     problem_timer.one_shot = false
+    problem_timer.wait_time = TIME_BETWEEN_PROBLEMS
     problem_timer.start(TIME_BETWEEN_PROBLEMS)
-    problem_timer.timeout.connect(on_problem_timer_timeout)
+    problem_timer.timeout.connect(send_problem)
 
     add_child(signal_setup)
     signal_setup.one_shot = true
@@ -44,18 +62,15 @@ func _ready() -> void:
 
     add_child(raid_timer)
     add_child(warning_raid_timer)
+    
 
-    #morse_message("s", 20)
-
-    chiper_message("f")
-    #chiper_message("y")
-    #Maybe use a timer for duration and if not fail with it?!
-    #supply_drop(5, 6, radio_type[0])
-    #supply_drop(4, 3, radio_type[1])
-    #chiper_message("q")
-    #raid_prep(4,2)
-    #chiper_message("message")
-
+@warning_ignore("untyped_declaration", "unsafe_method_access")
+func load_from_file(data: Array) -> void:
+    for i in data:
+        if i is Caesar_Shift_Object:
+            chiper_message(i.getMessage() as String, i.getShift() as int)
+        elif i is Morse:
+            morse_message(i.getMessage() as String, i.getDuration() as int)
 
 func raid_send(raid_start: float, duration: float) -> void:
     if emit_signal("warning_raid", true) == ERR_UNAVAILABLE:
@@ -85,10 +100,10 @@ func supply_drop(x: int, y: int, type: String) -> void:
     var supply_drop_obj := Supply_Drop.new(x, y, type)
     problems.push_back(supply_drop_obj)
 
-
-func chiper_message(message: String) -> void:
+#shift max range -24 to 24
+func chiper_message(message: String, shift: int) -> void:
     #var chiper_random = randi_range(-24, 24)
-    var chiper_obj := Caesar_Shift_Object.new(message, 20)
+    var chiper_obj := Caesar_Shift_Object.new(message, shift)
     problems.push_back(chiper_obj)
 
 
@@ -106,10 +121,11 @@ func setup() -> void:
     keyboard_layout.emit(layout.pick_random())
 
 
-func on_problem_timer_timeout() -> void:
+func send_problem() -> void:
     print(problems)
     if problems.size() > 0:
         var current := problems[0]
+        print("Sending current problem: ", current)
         if current is Caesar_Shift_Object:
             chiper.emit(current)
             problems.pop_front()
@@ -124,6 +140,6 @@ func on_problem_timer_timeout() -> void:
             problems.pop_front()
 
         if current is Morse:
-            morse.emit(current)
+            morse.emit(current as Morse)
             print("Sending a Morse Signal.")
             problems.pop_front()
