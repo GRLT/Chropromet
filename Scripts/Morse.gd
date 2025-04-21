@@ -64,7 +64,6 @@ var timeout_timer := Timer.new()
 
 var first_iteration: bool = true
 func morse_arrive(morse_object: Morse) -> void:
-    print("A new Morse Object arrived from Problem Generator")
     morse_problem_buf.append(morse_object)
     if first_iteration:
         timeout_timer.start(0.5)
@@ -103,9 +102,6 @@ func _ready() -> void:
     #Around 0.4 resonable
     frame_timer.wait_time = 0.4
     frame_timer.timeout.connect(frame_timer_timeout)
-    
-
-    morse_arrive(Morse.new("g", 5))
 
 var first: bool = false
 var current_morse_problem: Morse = null
@@ -113,7 +109,6 @@ func timeout_timer_timeout() -> void:
     if morse_problem_buf.size() != 0:
         current_morse_problem = morse_problem_buf.pop_front()
         morse_code_buf = str_to_morse(current_morse_problem.getMessage()).duplicate()
-        print("Switching to next Morse Chiper")
         
         if !sound_player.playing:
             sound_player.play()
