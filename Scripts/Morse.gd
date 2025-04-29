@@ -1,13 +1,14 @@
-#BUFFER_LEN SET TO MAX
 
 extends Node
+
+signal morse_back
 
 
 @onready var back: Button = $Back
 @onready var morse: Node2D = get_node(".")
 @onready var input_box: LineEdit = $HBoxContainer/LineEdit
 const wait_time_between_problems = 2
-
+ 
 
 #LIMIT FRAMES, EXCESSIVE CPU USE!!!
 const LENGTH = 300
@@ -74,7 +75,7 @@ func _ready() -> void:
     timeout_timer.timeout.connect(timeout_timer_timeout)   
     back.pressed.connect(
         func() -> void:
-        push_warning("TODO")
+        SignalBus.scene_to_main.emit()
         )
     ($HBoxContainer/Submit as Button).pressed.connect(
     func()-> void:

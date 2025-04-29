@@ -1,12 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cxjquiqv3dt2f"]
+[gd_scene load_steps=7 format=3 uid="uid://cxjquiqv3dt2f"]
 
 [ext_resource type="Script" path="res://Scripts/Main_Node.gd" id="1_pn7wj"]
-[ext_resource type="Texture2D" uid="uid://bvdtx8gt0sreq" path="res://Assets/Raid_Warning_0.png" id="2_fk04b"]
+[ext_resource type="Texture2D" path="res://Assets/Raid_Warning_0.png" id="2_fk04b"]
 [ext_resource type="PackedScene" uid="uid://igqaxb1151nr" path="res://Scenes/Main_Scenes/Chiper_View.tscn" id="2_g2dg5"]
 [ext_resource type="PackedScene" uid="uid://cd4unbhsjnc7" path="res://Scenes/Main_Scenes/Raid.tscn" id="3_kg3ve"]
-[ext_resource type="PackedScene" uid="uid://dxf0mhbv4h3bx" path="res://Scenes/Main_Scenes/Map.tscn" id="5_k76r8"]
 [ext_resource type="PackedScene" uid="uid://cb4juftce1msi" path="res://Scenes/Main_Scenes/Morse.tscn" id="6_jjkbh"]
-[ext_resource type="PackedScene" uid="uid://dkn3igs7femg1" path="res://Scenes/Main_Scenes/Radio_View.tscn" id="7_6hcao"]
 [ext_resource type="PackedScene" uid="uid://brtwhwirk5f54" path="res://Scenes/Components/book.tscn" id="7_lcxqt"]
 
 [node name="Main_Node" type="Node2D"]
@@ -52,41 +50,6 @@ offset_top = -31.0
 offset_right = 112.0
 grow_vertical = 0
 text = "Chiper_Game"
-metadata/_edit_use_anchors_ = true
-metadata/_edit_lock_ = true
-
-[node name="Map_Station" type="Control" parent="MainGame/Stations"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 2.0
-offset_top = 116.0
-offset_right = 102.0
-offset_bottom = 147.0
-metadata/_edit_lock_ = true
-
-[node name="Map_Button" type="Button" parent="MainGame/Stations/Map_Station"]
-layout_mode = 1
-offset_right = 100.0
-offset_bottom = 31.0
-text = "Map Button"
-metadata/_edit_use_anchors_ = true
-metadata/_edit_lock_ = true
-
-[node name="Radio_Station" type="Control" parent="MainGame/Stations"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 2.0
-offset_top = 54.0
-offset_right = 111.0
-offset_bottom = 85.0
-metadata/_edit_use_anchors_ = true
-metadata/_edit_lock_ = true
-
-[node name="Radio_Button" type="Button" parent="MainGame/Stations/Radio_Station"]
-layout_mode = 1
-offset_right = 105.0
-offset_bottom = 31.0
-text = "RadioButton"
 metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
 
@@ -143,22 +106,13 @@ offset_bottom = 324.0
 text = "Rulebook"
 
 [node name="Chiper" parent="." instance=ExtResource("2_g2dg5")]
-visible = false
+position = Vector2(2201, -721)
 
 [node name="Raid_s" parent="." instance=ExtResource("3_kg3ve")]
-visible = false
-position = Vector2(24, -940)
-
-[node name="Map" parent="." instance=ExtResource("5_k76r8")]
-visible = false
-position = Vector2(1233, -313)
+position = Vector2(-1872, -9)
 
 [node name="Morse" parent="." instance=ExtResource("6_jjkbh")]
-visible = false
-position = Vector2(-656, -1033)
-
-[node name="RadioView" parent="." instance=ExtResource("7_6hcao")]
-visible = false
+position = Vector2(-565, -1827)
 
 [node name="Book" parent="." instance=ExtResource("7_lcxqt")]
 visible = false

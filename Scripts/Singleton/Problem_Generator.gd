@@ -6,19 +6,15 @@ const WARNING_RAID_TIMER = 3
 
 signal chiper(problems: Caesar_Shift_Object)
 signal keyboard_layout(layout: String)
-@warning_ignore("unused_signal")
-signal active_raid(duration: float)
-@warning_ignore("unused_signal")
-signal warning_raid(toggle: bool)
-signal supply_drop_signal(supply_object: Supply_Drop)
+signal raid()
 signal morse(morse_object: Morse)
 signal load_map(data: Array)
 
 var problem_timer := Timer.new()
 var signal_setup := Timer.new()
 
-var raid_timer := Timer.new()
-var warning_raid_timer := Timer.new()
+
+
 
 var problems: Array[Object] = []
 
@@ -46,8 +42,6 @@ func timer_for_problem_gen() -> void:
     problem_timer.name = "problem_timer"
     signal_setup.paused = true
     signal_setup.name = "signal_setup"
-    raid_timer.paused = true
-    raid_timer.name = "raid_timer"
     
     add_child(problem_timer)
     problem_timer.one_shot = false
@@ -60,8 +54,7 @@ func timer_for_problem_gen() -> void:
     signal_setup.start(0.1)
     signal_setup.timeout.connect(setup)
 
-    add_child(raid_timer)
-    add_child(warning_raid_timer)
+
     
 
 @warning_ignore("untyped_declaration", "unsafe_method_access")
@@ -71,25 +64,6 @@ func load_from_file(data: Array) -> void:
             chiper_message(i.getMessage() as String, i.getShift() as int)
         elif i is Morse:
             morse_message(i.getMessage() as String, i.getDuration() as int)
-
-func raid_send(raid_start: float, duration: float) -> void:
-    if emit_signal("warning_raid", true) == ERR_UNAVAILABLE:
-        push_warning("Failed to send warning_raid signal!")
-    warning_raid_timer.one_shot = true
-    warning_raid_timer.start(WARNING_RAID_TIMER)
-    warning_raid_timer.timeout.connect(warning_timer_timeout.bind(raid_start, duration))
-
-
-#WARNING
-#Not really used everywhere
-func warning_timer_timeout(raid_start: float, duration: float) -> void:
-    if emit_signal("warning_raid", false) == ERR_UNAVAILABLE:
-        push_warning("Failed to send warning_raid signal!")
-    #print("3 second passed")
-    raid_timer.one_shot = true
-    raid_timer.start(raid_start)
-    raid_timer.timeout.connect(raid_timer_timeout.bind(duration))
-
 
 func raid_prep(raid_start: float, duration: float) -> void:
     var raid_obj: Raid_Object = Raid_Object.new(raid_start, duration)
@@ -132,12 +106,11 @@ func send_problem() -> void:
 
         if current is Raid_Object:
             var current_Raid_Object: Raid_Object = current
-            raid_send(current_Raid_Object.getRaidStart(), current_Raid_Object.getDuration())
+            #Just send a signal and let raid singelton handle it 
+            raid.emit()
+            #raid_send(current_Raid_Object.getRaidStart(), current_Raid_Object.getDuration())
             problems.pop_front()
 
-        if current is Supply_Drop:
-            supply_drop_signal.emit(current)
-            problems.pop_front()
 
         if current is Morse:
             morse.emit(current as Morse)

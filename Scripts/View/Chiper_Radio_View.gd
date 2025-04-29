@@ -3,17 +3,15 @@ extends Node
 @onready var display: RichTextLabel = $Chiper_Display
 @onready var fail: Timer = $Timeout_Timer
 @onready var charachter_timeout: Timer = $Charachter_Timer
-@onready var scence_back: Button = $Back
+@onready var back: Button = $Back
 
 @onready var submit_button: Button = $Keyboard/Submit
 @onready var player_input_screen: Label = $Keyboard/Player_Input_Screen
 @onready var keyboard: Keyboard = $Keyboard
 
-@onready var main_game := get_node("..")
 
 var problem_queue: Array[Caesar_Shift_Object] = []
 
-signal stat
 signal radio_info
 signal chiper_back
 
@@ -22,14 +20,10 @@ const SEQUENCE_START = "/"
 
 func _ready() -> void:
     ProblemGenerator.connect("chiper", arrive_chiper)
-    ProblemGenerator.connect("active_raid", raid)
     
-    scence_back.pressed.connect(
+    back.pressed.connect(
         func() -> void:
-        var main_scene: Node2D = get_node("/root/Main_Node/MainGame")
-        if main_scene != null:
-            (main_scene.get_node("Main_Camera") as Camera2D).make_current()
-        chiper_back.emit()
+            SignalBus.scene_to_main.emit()
     )
     
     charachter_timeout.timeout.connect(message_print)
@@ -104,7 +98,7 @@ func check_chiper() -> void:
                 active = false
                 arrive_chiper()
                 #Send back a signal with fail
-                stat.emit()
+                #stat.emit()
     else:
         player_input_screen.text = "FAIL"
 

@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cb4juftce1msi"]
+[gd_scene load_steps=5 format=3 uid="uid://cb4juftce1msi"]
 
 [ext_resource type="Script" path="res://Scripts/Morse.gd" id="1_mximf"]
-[ext_resource type="Texture2D" uid="uid://bvdtx8gt0sreq" path="res://Assets/Raid_Warning_0.png" id="2_8fy8v"]
 [ext_resource type="Shader" path="res://Assets/Shaders/Line.gdshader" id="3_tdbyw"]
 
 [sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_oivxg"]
@@ -16,19 +15,6 @@ script = ExtResource("1_mximf")
 [node name="SoundPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamGenerator_oivxg")
 volume_db = -5.0
-
-[node name="Label2" type="Label" parent="."]
-offset_left = 194.0
-offset_top = 142.0
-offset_right = 421.0
-offset_bottom = 267.0
-
-[node name="Label" type="Label" parent="."]
-offset_left = 531.0
-offset_top = 335.0
-offset_right = 626.0
-offset_bottom = 358.0
-text = "Morse Label"
 
 [node name="Morse_Camera" type="Camera2D" parent="."]
 position = Vector2(576, 322)
@@ -55,14 +41,8 @@ layout_mode = 2
 text = "o"
 max_length = 5
 
-[node name="Warning_Texture" type="TextureRect" parent="." groups=["warning"]]
-unique_name_in_owner = true
-offset_left = 1074.0
-offset_right = 1154.0
-offset_bottom = 80.0
-texture = ExtResource("2_8fy8v")
-
 [node name="Wave" type="Line2D" parent="."]
 material = SubResource("ShaderMaterial_x18ar")
+points = PackedVector2Array(980, 261)
 width = 20.0
 default_color = Color(0, 0.572549, 0, 1)
