@@ -37,9 +37,17 @@ size_flags_vertical = 4
 layout_mode = 2
 text = "Start"
 
+[node name="Load_Button" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Load"
+
 [node name="Options_Button" type="Button" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 text = "Options"
+
+[node name="Mission Editor" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Editor"
 
 [node name="Exit_Button" type="Button" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
