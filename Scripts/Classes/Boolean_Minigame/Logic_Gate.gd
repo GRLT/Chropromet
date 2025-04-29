@@ -7,12 +7,14 @@ enum gate_types{
     NAND,
     NOR,
     XOR,
-    XNOR
+    XNOR,
+    NONE
 }
 
 enum connection_values{
     LOW,
-    HIGH
+    HIGH,
+    NONE
 }
 
 
@@ -43,59 +45,96 @@ const truth_table:Dictionary = {
         }
 }
 
-var values: Array[connection_values] = []
+var input_connections: Array[connection_values] = []
 var selected_logic_gate: gate_types
-var result: Array[connection_values] = []
+
+var result: connection_values
 
 func _init(input_connections: Array[connection_values] = [connection_values], logic_gates: gate_types = gate_types) -> void:
     assert(input_connections.size() >  0, "Gate connection number is 0")
     
-    self.values = input_connections
+    self.input_connections = input_connections
     self.selected_logic_gate = logic_gates
 
 
 func evaluate_gate() -> void:
-    if values.size() >= 2:
+    if input_connections.size() == 1:
+        _negate()
+        return
+    
+    if input_connections.size() >= 2:
         match selected_logic_gate:
             gate_types.NOT:
                 assert(false, "We only allow negating 1 value")
+                return
             gate_types.AND:
                 _gate(truth_table["and_table"] as Dictionary)
+                return
             gate_types.OR:
                 _gate(truth_table["or_table"] as Dictionary)
+                return
             gate_types.NAND:
                 _gate(truth_table["nand_table"] as Dictionary)
+                return
             gate_types.NOR:
                 _gate(truth_table["nor_table"] as Dictionary)
+                return
             gate_types.XOR:
                 _gate(truth_table["xor_table"] as Dictionary)
+                return
             gate_types.XNOR:
                 _gate(truth_table["xnor_table"] as Dictionary)
-
-    elif values.size() == 1:
-        _negate()
-
+                return
+        
 
 func _negate() -> void:
-     if values[0] == connection_values.HIGH:
-        values[0] = connection_values.LOW
+     if input_connections[0] == connection_values.HIGH:
+        result = connection_values.LOW
      else:
-        values[0] = connection_values.HIGH
+        result = connection_values.HIGH
 
 func _gate(truth_table: Dictionary) -> void:
-    assert(!values.size() == 1, "AND gate, was supplied with less then two conditions")
-    while values.size() > 1:
-        var val_l := values[0]
-        var val_r := values[1]
+    assert(!input_connections.size() == 1, "Gate, was supplied with less then two conditions")
+    var eval_arr: Array[connection_values] = input_connections.duplicate()
+    while eval_arr.size() > 1:
+        var val_l := eval_arr[0]
+        var val_r := eval_arr[1]
         var result: connection_values
         
         result = truth_table[val_l][val_r]
         
         for k in range(2):
-            values.remove_at(0)
-        values.push_front(result)
+            eval_arr.remove_at(0)
+        eval_arr.push_front(result)
+        
+    self.result = eval_arr.pop_front()
 
-func get_values() -> String:
-    for i in values:
+
+func _to_string() -> String:
+    var str_build: String = "Connections:"
+    for i in input_connections:
+        str_build += " " + connection_values.keys()[i]
+    
+    str_build += " Gate Type: %s" % gate_types.keys()[selected_logic_gate]
+    
+
+    str_build += " Result is: %s \n" % connection_values.keys()[result]
+    
+    return str_build
+
+func set_gate_type(gate_type:Logic_Gate.gate_types) -> void:
+    selected_logic_gate = gate_type
+
+func set_input_values(values:Array[Logic_Gate.connection_values]) -> void:
+    input_connections = values
+
+func get_values_str() -> String:
+    for i in input_connections:
         return "%s " % i
     return "unreachable"
+    
+func get_selected_logic_gate() -> Logic_Gate.gate_types:
+    return self.selected_logic_gate
+
+func get_selected_logic_gate_str() -> String:
+    return gate_types.keys()[self.selected_logic_gate]
