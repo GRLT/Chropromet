@@ -6,14 +6,13 @@ extends Node2D
 @onready var tree_container: VBoxContainer = $Tree_Container/VBoxContainer
 @onready var scene: Node2D  = get_node(".")
 
-var alert_win := preload("res://Scenes/Components/Alert_Window.tscn").instantiate()
-    
+
 var config:ConfigFile = ConfigFile.new()
 
 var mini_games: Array = ["Morse", "Chiper_Game", "Raid"]    
 var time_range: Array = [20, 30, 45, 60, 120]
 
-
+var alert_window_glob:Node
 
 @warning_ignore("unsafe_property_access", "unsafe_method_access")
 func _ready() -> void:
@@ -35,7 +34,8 @@ var counter: int = 0
 @warning_ignore("unsafe_method_access", "unsafe_property_access")
 #TODO replace init() with a signal, altough this works
 func save_pressed() -> void:
-    alert_win = preload("res://Scenes/Components/Alert_Window.tscn").instantiate()
+    var alert_win := preload("res://Scenes/Components/Alert_Window.tscn").instantiate()
+    alert_window_glob = alert_win
     if tree_container.get_child_count() >= 1:
         var val_name:String
         for i in tree_container.get_children():
@@ -146,9 +146,8 @@ func new_mission_pressed() -> void:
 
 func alert_window(input_data:LineEdit) -> void:
     var dir: DirAccess = DirAccess.open("res://")
-    print("arrived from signal")
     var path:String = input_data.text
-    alert_win.queue_free()
+    #alert_win.queue_free()
     
     path = path.to_lower()
     if path.find(".", 0) == -1:
