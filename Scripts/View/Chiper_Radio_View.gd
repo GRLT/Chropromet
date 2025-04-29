@@ -65,6 +65,9 @@ func message_print() -> void:
     if problem_queue.size() != 0:
         current_queue = problem_queue[0]
 
+        if current_queue == null:
+            return
+
         if char_counter == 0:
             display.text = SEQUENCE_START
             char_counter += 1
