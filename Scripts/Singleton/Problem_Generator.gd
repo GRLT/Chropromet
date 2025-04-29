@@ -6,7 +6,6 @@ const WARNING_RAID_TIMER = 3
 
 signal chiper(problems: Caesar_Shift_Object)
 signal keyboard_layout(layout: String)
-signal raid()
 signal morse(morse_object: Morse)
 signal load_map(data: Array)
 
@@ -28,14 +27,16 @@ func _ready() -> void:
     # creating new stuff, but maybe this is just 
     # neat, and I should leave it here
     #var root := get_node("../Main_Node")
-
+    
+    
     timer_for_problem_gen()
     
     load_map.connect(
         func(data: Array) -> void:
             load_from_file(data)
     )
-        
+    await get_tree().process_frame
+    SignalBus.raid_prep.emit(Raid_Object.new(2, 10, 4))
 
 func timer_for_problem_gen() -> void:
     problem_timer.paused = true
@@ -65,10 +66,6 @@ func load_from_file(data: Array) -> void:
         elif i is Morse:
             morse_message(i.getMessage() as String, i.getDuration() as int)
 
-func raid_prep(raid_start: float, duration: float) -> void:
-    var raid_obj: Raid_Object = Raid_Object.new(raid_start, duration)
-    problems.push_back(raid_obj)
-
 
 func supply_drop(x: int, y: int, type: String) -> void:
     var supply_drop_obj := Supply_Drop.new(x, y, type)
@@ -86,31 +83,23 @@ func morse_message(message: String, duration: int) -> void:
     problems.push_back(morse_obj)
 
 
-func raid_timer_timeout(duration: float) -> void:
-    if emit_signal("active_raid", duration) == ERR_UNAVAILABLE:
-        push_warning("Failed to send active_raid signal!")
-
-
 func setup() -> void:
     keyboard_layout.emit(layout.pick_random())
 
 
 func send_problem() -> void:
-    print(problems)
     if problems.size() > 0:
         var current := problems[0]
+        
         print("Sending current problem: ", current)
         if current is Caesar_Shift_Object:
             chiper.emit(current)
             problems.pop_front()
 
         if current is Raid_Object:
-            var current_Raid_Object: Raid_Object = current
-            #Just send a signal and let raid singelton handle it 
-            raid.emit()
-            #raid_send(current_Raid_Object.getRaidStart(), current_Raid_Object.getDuration())
+            var current_raid_object: Raid_Object = current
+            SignalBus.raid_prep.emit(current_raid_object)
             problems.pop_front()
-
 
         if current is Morse:
             morse.emit(current as Morse)

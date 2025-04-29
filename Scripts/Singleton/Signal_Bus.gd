@@ -1,6 +1,4 @@
 extends Node
 
 signal scene_to_main
-
-func _ready() -> void:
-    pass
+signal raid_prep(current_raid_object: Raid_Object)

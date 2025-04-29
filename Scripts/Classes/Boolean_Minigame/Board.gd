@@ -7,12 +7,11 @@ var end_node: Gate_Node
 var col: int = 0
 var row: int = 0
 
-@warning_ignore("unsafe_method_access", "untyped_declaration")
 func _init(col:int, row:int) -> void:
     self.col = col
     self.row = row
     for i in col:
-        var row_t = []
+        var row_t:Array = []
         for j in row:
             if i + j < row:
                 row_t.append(Logic_Gate.new([Logic_Gate.connection_values.NONE], Logic_Gate.gate_types.NONE))
