@@ -56,9 +56,6 @@ func init(state: String, code: int = 0) -> void:
                 push_error("Error: Alert_Window failed to find an error code: ", code)
                 print("Error: Alert_Window failed to find an error code: ", code)
                 window.queue_free()
-            #We need this because we can't just manually call a function
-            #that'll redraw it properly and set the size AFTER the text was set
-            ##https://github.com/godotengine/godot/issues/20623
     elif state == "Info":
         input_line.queue_free()
         
@@ -77,7 +74,11 @@ func init(state: String, code: int = 0) -> void:
                 print("Error: Alert_Window failed to find an error code: ", code)
                 window.queue_free()
         
+    #We need this because we can't just manually call a function
+    #that'll redraw it properly and set the size AFTER the text was set
+    #https://github.com/godotengine/godot/issues/20623
     label.set_size(label.get_minimum_size())
+    
     overflow(window, label, 15.0)
     #For now 1152 and ~623 hard coded, due to how the game scales.
     @warning_ignore("integer_division")
