@@ -36,20 +36,13 @@ func _ready() -> void:
 
 func arrive_chiper(problems: Caesar_Shift_Object = null) -> void:
     problem_queue.append(problems)
-
     charachter_timeout.start()
-
-
+    
 var active := false
-
-
 func send_view_info() -> void:
     radio_info.emit(problem_queue.size(), active)
 
-
 var char_counter: int = 0
-
-
 func message_print() -> void:
     var current_queue: Caesar_Shift_Object
 
@@ -113,20 +106,6 @@ func timer_pause_or_resume(toggle: bool) -> void:
     fail.set_paused(toggle)
     charachter_timeout.set_paused(toggle)
 
-
-#Stop the timer while a raid is ongoing.
-func raid(duration: float) -> void:
-    timer_pause_or_resume(true)
-
-    var countdown := Timer.new()
-    add_child(countdown)
-    countdown.one_shot = true
-    countdown.start(duration)
-    countdown.timeout.connect(countdown_end)
-
-
-func countdown_end() -> void:
-    timer_pause_or_resume(false)
 
 #TODO
 #Indicate when switching between charachters, It's really hard
