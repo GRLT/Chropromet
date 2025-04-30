@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dygs1fxwg21ng"
-path="res://.godot/imported/supply_medicine.png-647ead56213fdcd354bd9ee5c0debc28.ctex"
+uid="uid://dhrk7cigdwfg7"
+path="res://.godot/imported/1443321549047.png-9d42a5e07066c1219c76dbe90b29dc06.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/supply_medicine.png"
-dest_files=["res://.godot/imported/supply_medicine.png-647ead56213fdcd354bd9ee5c0debc28.ctex"]
+source_file="res://Assets/Sprites/1443321549047.png"
+dest_files=["res://.godot/imported/1443321549047.png-9d42a5e07066c1219c76dbe90b29dc06.ctex"]
 
 [params]
 

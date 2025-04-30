@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3o74hfx7r35q"]
+[gd_scene load_steps=3 format=3 uid="uid://d3o74hfx7r35q"]
 
 [ext_resource type="Script" path="res://Scripts/Load_Map.gd" id="1_brpha"]
+[ext_resource type="Texture2D" uid="uid://uao3g7vwhpaj" path="res://Assets/Sprites/trak_panel_lrg3.jpg" id="2_0uytf"]
 
 [node name="LoadMap" type="Control"]
 layout_mode = 3
@@ -13,8 +14,8 @@ script = ExtResource("1_brpha")
 
 [node name="Back" type="Button" parent="."]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 112.0
+offset_bottom = 56.0
 text = "Back"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -23,3 +24,14 @@ offset_left = 432.0
 offset_top = 99.0
 offset_right = 699.0
 offset_bottom = 255.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -10
+layout_mode = 0
+offset_left = -42.0
+offset_top = -19.0
+offset_right = 1248.0
+offset_bottom = 689.0
+mouse_filter = 2
+texture = ExtResource("2_0uytf")
+stretch_mode = 1

@@ -1,11 +1,11 @@
 extends Node2D
 
 
-@onready var new_mission: Button = $New_Mission
-@onready var save_into_file: Button = $Save
+@onready var new_mission: Button = $VBoxContainer/New_Mission
+@onready var save_into_file: Button = $VBoxContainer/Save
 @onready var tree_container: VBoxContainer = $Tree_Container/VBoxContainer
 @onready var scene: Node2D  = get_node(".")
-
+@onready var back: Button = $VBoxContainer/Back
 
 
 var config:ConfigFile = ConfigFile.new()
@@ -20,6 +20,10 @@ func _ready() -> void:
     new_mission.connect("pressed", new_mission_pressed)
     save_into_file.connect("pressed", save_pressed)
     
+    back.pressed.connect(
+        func() -> void:
+            get_tree().change_scene_to_file("res://Scenes/Main_Scenes/Title.tscn")
+    )
     
     #Separatin between container elems
     tree_container.add_theme_constant_override("separation", 20)

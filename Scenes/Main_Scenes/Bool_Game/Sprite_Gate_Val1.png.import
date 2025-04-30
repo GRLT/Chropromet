@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwylwd4mbx4g6"
-path="res://.godot/imported/supply_shell.png-bc6f9626649c4e33c31c42e069c2baec.ctex"
+uid="uid://c4007hxipkava"
+path="res://.godot/imported/Sprite_Gate_Val1.png-2d822ab8b0eb746baa30b5c5c9e54cd4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/supply_shell.png"
-dest_files=["res://.godot/imported/supply_shell.png-bc6f9626649c4e33c31c42e069c2baec.ctex"]
+source_file="res://Scenes/Main_Scenes/Bool_Game/Sprite_Gate_Val1.png"
+dest_files=["res://.godot/imported/Sprite_Gate_Val1.png-2d822ab8b0eb746baa30b5c5c9e54cd4.ctex"]
 
 [params]
 

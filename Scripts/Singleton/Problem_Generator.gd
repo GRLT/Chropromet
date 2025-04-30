@@ -1,6 +1,6 @@
 extends Node
 
-const TIME_BETWEEN_PROBLEMS = 5 
+const TIME_BETWEEN_PROBLEMS = 6
 const WARNING_RAID_TIMER = 3
 
 
@@ -19,17 +19,7 @@ var radio_type: Array[String] = ["weapon", "medicine", "shell"]
 
 @warning_ignore("unreachable_code")
 func _ready() -> void:
-    # TODO
-    # DELETE_ME, this is just to remove junk while 
-    # creating new stuff, but maybe this is just 
-    # neat, and I should leave it here
-    #var root := get_node("../Main_Node")
-    #await get_tree().process_frame
-    #problems.push_front(Logic_Board.new(3,3, 10))
-    #problems.push_front(Logic_Board.new(2,2, 15))
-    #send_problem()
-    #send_problem()
-    #
+
     timer_for_problem_gen()
     
     load_map.connect(
@@ -59,9 +49,8 @@ func timer_for_problem_gen() -> void:
 
     
 
-@warning_ignore("untyped_declaration", "unsafe_method_access")
 func load_from_file(data: Array) -> void:
-    for i in data:
+    for i:Object in data:
         if i is Caesar_Shift_Object:
             problems.push_back(i)
         elif i is Morse:
@@ -69,7 +58,7 @@ func load_from_file(data: Array) -> void:
         elif i is Raid_Object:
             problems.push_back(i)
         elif i is Logic_Board:
-            problems.push_back(i)
+                problems.push_back(i)
             
 
 func setup() -> void:
@@ -79,7 +68,6 @@ func setup() -> void:
 func send_problem() -> void:
     if problems.size() > 0:
         var current := problems[0]
-        
 
         if current is Caesar_Shift_Object:
             chiper.emit(current)
@@ -100,3 +88,5 @@ func send_problem() -> void:
             SignalBus.logic_game.emit(current)
             problems.pop_front()
             print("Sending Logic Game Signal")
+    else:
+        SignalBus.all_signal_sent_out.emit()

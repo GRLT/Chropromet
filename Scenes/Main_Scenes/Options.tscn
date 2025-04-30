@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://drhkx1sljmuer"]
+[gd_scene load_steps=3 format=3 uid="uid://drhkx1sljmuer"]
 
 [ext_resource type="Script" path="res://Scripts/Options.gd" id="1_2pvgn"]
+[ext_resource type="Texture2D" uid="uid://uao3g7vwhpaj" path="res://Assets/Sprites/trak_panel_lrg3.jpg" id="2_ecndo"]
 
 [node name="Options" type="Control"]
 layout_mode = 3
@@ -97,3 +98,13 @@ text = "Save"
 [node name="Back_Button" type="Button" parent="CanvasLayer/BoxContainer"]
 layout_mode = 2
 text = "Back"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -710.0
+offset_top = -51.0
+offset_right = 679.0
+offset_bottom = 727.0
+mouse_filter = 2
+texture = ExtResource("2_ecndo")
+stretch_mode = 1

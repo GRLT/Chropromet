@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://d0b4uh72asirq"]
+[gd_scene load_steps=4 format=3 uid="uid://d0b4uh72asirq"]
 
 [ext_resource type="Script" path="res://Scripts/Title.gd" id="1_ramx0"]
+[ext_resource type="Texture2D" uid="uid://dw1xsp4wgggll" path="res://Assets/Sprites/Title.png" id="2_nl6vm"]
+[ext_resource type="Texture2D" uid="uid://uao3g7vwhpaj" path="res://Assets/Sprites/trak_panel_lrg3.jpg" id="3_pc7h6"]
 
 [node name="Title" type="Control"]
 layout_mode = 3
@@ -9,46 +11,58 @@ script = ExtResource("1_ramx0")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Title_Text" type="RichTextLabel" parent="CanvasLayer"]
-anchors_preset = 5
+[node name="Title_Text" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -59.0
-offset_top = 119.0
-offset_right = 59.0
-offset_bottom = 143.0
+anchor_bottom = 0.5
+offset_left = -470.0
+offset_top = -443.0
+offset_right = 470.0
+offset_bottom = 27.0
 grow_horizontal = 2
-text = "Chronopromet"
-fit_content = true
+grow_vertical = 2
+texture = ExtResource("2_nl6vm")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
-anchors_preset = 5
+[node name="BoxContainer" type="BoxContainer" parent="CanvasLayer"]
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -62.0
-offset_top = 250.0
-offset_right = 58.0
-offset_bottom = 440.0
+anchor_bottom = 0.5
+offset_left = -157.0
+offset_top = -85.0
+offset_right = 103.0
+offset_bottom = 151.0
 grow_horizontal = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+grow_vertical = 2
+theme_override_constants/separation = 25
+vertical = true
 
-[node name="Start_Button" type="Button" parent="CanvasLayer/VBoxContainer"]
-layout_mode = 2
-text = "Start"
-
-[node name="Load_Button" type="Button" parent="CanvasLayer/VBoxContainer"]
+[node name="Load_Button" type="Button" parent="CanvasLayer/BoxContainer"]
 layout_mode = 2
 text = "Load"
 
-[node name="Options_Button" type="Button" parent="CanvasLayer/VBoxContainer"]
+[node name="Options_Button" type="Button" parent="CanvasLayer/BoxContainer"]
 layout_mode = 2
 text = "Options"
 
-[node name="Mission Editor" type="Button" parent="CanvasLayer/VBoxContainer"]
+[node name="Mission Editor" type="Button" parent="CanvasLayer/BoxContainer"]
 layout_mode = 2
 text = "Editor"
 
-[node name="Exit_Button" type="Button" parent="CanvasLayer/VBoxContainer"]
+[node name="Exit_Button" type="Button" parent="CanvasLayer/BoxContainer"]
 layout_mode = 2
 text = "Exit"
+
+[node name="Background_Texture" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -5.0
+offset_top = -50.0
+offset_right = 1151.0
+offset_bottom = 1106.0
+texture = ExtResource("3_pc7h6")
+expand_mode = 5
+stretch_mode = 1
+metadata/_edit_lock_ = true

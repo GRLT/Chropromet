@@ -31,9 +31,6 @@ func setup_timer() -> void:
     scene.add_child(warning_timer)
     scene.add_child(raid_duration)
     scene.add_child(raid_wait)
-    
-func _process(delta: float) -> void:
-    print(raid_wait.time_left)
 
 var current_raid_object: Array[Raid_Object]
 var currently_selected_raid_object: Raid_Object

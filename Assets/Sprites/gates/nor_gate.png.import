@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7a2ploh8l1od"
-path="res://.godot/imported/supply_weapon.png-545c4e9c60d58bfab73fa7a361b41101.ctex"
+uid="uid://boyyt65gehbpi"
+path="res://.godot/imported/nor_gate.png-a80fcdf42669a0b0785087b24428c835.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/supply_weapon.png"
-dest_files=["res://.godot/imported/supply_weapon.png-545c4e9c60d58bfab73fa7a361b41101.ctex"]
+source_file="res://Assets/Sprites/gates/nor_gate.png"
+dest_files=["res://.godot/imported/nor_gate.png-a80fcdf42669a0b0785087b24428c835.ctex"]
 
 [params]
 

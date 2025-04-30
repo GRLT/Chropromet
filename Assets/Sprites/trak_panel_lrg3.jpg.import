@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6oir6vwn8gdd"
-path="res://.godot/imported/rock.png-0c0219717541df45f349d6d40ca3fa00.ctex"
+uid="uid://uao3g7vwhpaj"
+path="res://.godot/imported/trak_panel_lrg3.jpg-f50cf597261f699637ffb14251f15ea9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/rock.png"
-dest_files=["res://.godot/imported/rock.png-0c0219717541df45f349d6d40ca3fa00.ctex"]
+source_file="res://Assets/Sprites/trak_panel_lrg3.jpg"
+dest_files=["res://.godot/imported/trak_panel_lrg3.jpg-f50cf597261f699637ffb14251f15ea9.ctex"]
 
 [params]
 

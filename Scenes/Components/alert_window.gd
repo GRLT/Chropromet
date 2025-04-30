@@ -3,7 +3,7 @@ extends Node2D
 
 signal save_to_file(input_data: LineEdit)
 
-@warning_ignore("unsafe_method_access", "unsafe_property_access")
+
 func init(state: String, code: int = 0) -> void:
     var window: Window = get_node("./Window")
     var scene: Node2D = get_node(".")
@@ -111,6 +111,7 @@ func button_event(button: Button, scene: Node2D,state:String, input_line:LineEdi
         elif state == "Save":
             if input_line.text == "":
                 return
+            scene.queue_free()
             
             if input_line:
                 save_to_file.emit(input_line)

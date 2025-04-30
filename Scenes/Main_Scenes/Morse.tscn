@@ -26,21 +26,6 @@ offset_right = 194.0
 offset_bottom = 68.0
 text = "Back to main View!"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_left = 694.0
-offset_top = 55.0
-offset_right = 1016.0
-offset_bottom = 151.0
-
-[node name="Submit" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-text = "Submit"
-
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
-layout_mode = 2
-text = "asdsa"
-max_length = 5
-
 [node name="Wave" type="Line2D" parent="."]
 material = SubResource("ShaderMaterial_x18ar")
 points = PackedVector2Array(980, 261)
@@ -59,3 +44,18 @@ offset_top = 587.0
 offset_right = 120.0
 offset_bottom = 618.0
 text = "Rulebook"
+
+[node name="LineEdit" type="LineEdit" parent="."]
+offset_left = 389.0
+offset_top = 503.0
+offset_right = 513.0
+offset_bottom = 578.0
+text = "asdsa"
+max_length = 5
+
+[node name="Submit" type="Button" parent="."]
+offset_left = 544.0
+offset_top = 502.0
+offset_right = 660.0
+offset_bottom = 576.0
+text = "Submit"

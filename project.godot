@@ -38,6 +38,10 @@ gdscript/warnings/assert_always_false=0
 window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 
+[gui]
+
+theme/custom_font="res://Assets/Fonts/CutePixel.ttf"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmdmdp35d0dll"]
+
+[ext_resource type="Script" path="res://Scripts/Victory.gd" id="1_kxhe2"]
+[ext_resource type="Texture2D" uid="uid://uao3g7vwhpaj" path="res://Assets/Sprites/trak_panel_lrg3.jpg" id="1_vpe4p"]
+
+[node name="Victory" type="Node2D"]
+script = ExtResource("1_kxhe2")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -2
+offset_left = -46.0
+offset_top = -27.0
+offset_right = 1237.0
+offset_bottom = 727.0
+mouse_filter = 2
+texture = ExtResource("1_vpe4p")
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="."]
+offset_left = 492.0
+offset_top = 85.0
+offset_right = 764.0
+offset_bottom = 279.0
+theme_override_font_sizes/font_size = 50
+text = "You Won!"
+
+[node name="Back" type="Button" parent="."]
+offset_left = 512.0
+offset_top = 417.0
+offset_right = 614.0
+offset_bottom = 458.0
+text = "Back To Title"

@@ -5,8 +5,8 @@
 [node name="Book" type="Window"]
 transparent_bg = true
 position = Vector2i(300, 36)
-size = Vector2i(400, 400)
-unresizable = true
+size = Vector2i(300, 250)
+popup_window = true
 script = ExtResource("1_5srv5")
 
 [node name="BoxContainer" type="BoxContainer" parent="."]
@@ -19,18 +19,20 @@ offset_bottom = 200.0
 grow_horizontal = 2
 alignment = 1
 
-[node name="Page_0" type="Label" parent="BoxContainer"]
+[node name="Main" type="Label" parent="BoxContainer"]
 visible = false
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 text = "Main Scene
 
-In this scene you can, visit each station, to check out each minigame. You don't have to worry the game only start If you press the start button."
+In this scene you can, visit each station, to check out each minigame. You don't have to worry the game only start If you press the start button.
+
+Feel free to visit each station to read more about them"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Page_1" type="Label" parent="BoxContainer"]
+[node name="Morse Game" type="Label" parent="BoxContainer"]
 visible = false
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -43,7 +45,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Page_2" type="Label" parent="BoxContainer"]
+[node name="DotDash" type="Label" parent="BoxContainer"]
 visible = false
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -61,7 +63,7 @@ X -••-	|	Y -•--	|	Z --••
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Page_3" type="Label" parent="BoxContainer"]
+[node name="Raid" type="Label" parent="BoxContainer"]
 visible = false
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -74,7 +76,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Page_4" type="Label" parent="BoxContainer"]
+[node name="Chiper Game" type="Label" parent="BoxContainer"]
 visible = false
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
@@ -86,28 +88,27 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Page_5" type="Label" parent="BoxContainer"]
+[node name="LogicGate" type="Label" parent="BoxContainer"]
 visible = false
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
-text = "Map
+text = "Logic Gate
 
-The map will provide information for the radio, in here you need to read out the coordinates,type of supply and supply it to radio (TODO, enemies)
-When you successfully managed to guess the right tile a checkmark will be placed!"
+In this game you need to dechiper what's the output of each gate."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Page_6" type="Label" parent="BoxContainer"]
-visible = false
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-text = "Radio
-
-In the radio scene you can complete supply drops (todo enemies), and you'll be able to do another minigame WIP"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
+[node name="Back_Page" type="Button" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 45.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Back"
 
 [node name="Next_Page" type="Button" parent="."]
 anchors_preset = 3
@@ -120,14 +121,3 @@ offset_top = -31.0
 grow_horizontal = 0
 grow_vertical = 0
 text = "Next"
-
-[node name="Back_Page" type="Button" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 45.0
-grow_vertical = 0
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "Back"

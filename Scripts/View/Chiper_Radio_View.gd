@@ -5,6 +5,7 @@ extends Node
 @onready var charachter_timeout: Timer = $Charachter_Timer
 @onready var back: Button = $Back
 @onready var scene:Node2D = $"."
+@onready var check_timer: Timer = Timer.new()
 
 @onready var submit_button: Button = $Keyboard/Submit
 @onready var player_input_screen: Label = $Keyboard/Player_Input_Screen
@@ -18,17 +19,24 @@ var problem_queue: Array[Caesar_Shift_Object] = []
 signal radio_info
 signal chiper_back
 
-const SEQUENCE_START = "/"
-
 
 func _ready() -> void:
     ProblemGenerator.connect("chiper", arrive_chiper)
+
+    check_timer.one_shot = false
+    scene.add_child(check_timer)
+    check_timer.start(1)
+    
+    check_timer.timeout.connect(
+        func() -> void:
+            if message_active ==false && problem_queue.size() == 0 && current_queue == null:
+                SignalBus.chiper_complete.emit()
+    )
     
     back.pressed.connect(
         func() -> void:
             SignalBus.scene_to_main.emit()
     )
-    
     charachter_timeout.timeout.connect(message_print)
     submit_button.pressed.connect(check_chiper)
 
@@ -40,39 +48,32 @@ func _ready() -> void:
     )
 
 
-
-
 func arrive_chiper(problems: Caesar_Shift_Object = null) -> void:
     problem_queue.append(problems)
     charachter_timeout.start()
     
-var active := false
-func send_view_info() -> void:
-    radio_info.emit(problem_queue.size(), active)
 
+var message_active: bool = false
 var char_counter: int = 0
+var current_queue: Caesar_Shift_Object
 func message_print() -> void:
-    var current_queue: Caesar_Shift_Object
 
-    send_view_info()
-    active = true
+
+    message_active = true
 
     if problem_queue.size() != 0:
         current_queue = problem_queue[0]
 
         if current_queue == null:
             return
-
-        if char_counter == 0:
-            display.text = SEQUENCE_START
-            char_counter += 1
-            return
-
+#
+        
         if char_counter < current_queue.getEncrypted().length():
             display.text = str(current_queue.getEncrypted()[char_counter])
             char_counter += 1
         elif fail.time_left == 0:
             char_counter = 0
+
             fail.start()
             if !fail.is_connected("timeout", check_chiper):
                 fail.connect("timeout", check_chiper)
@@ -94,16 +95,16 @@ func check_chiper() -> void:
             player_input_screen.text = ""
             print("Entered fail")
             if problem_queue.size() != 0:
+                charachter_timeout.start()
                 problem_queue.pop_front()
                 SignalBus.fail_points.emit()
                 display.text = "FAIL"
-                active = false
+                message_active = false
                 arrive_chiper()
                 #Send back a signal with fail
-                #stat.emit()
-    else:
-        player_input_screen.text = "FAIL"
-        SignalBus.fail_points.emit()
+    #else:
+        #player_input_screen.text = "FAIL"
+        
 
 
 func timers_stop() -> void:

@@ -3,7 +3,7 @@ extends Node
 
 @onready var back: Button = $Back
 @onready var scene: Node2D = get_node(".")
-@onready var input_box: LineEdit = $HBoxContainer/LineEdit
+@onready var input_box: LineEdit = $LineEdit
 @onready var rulebook_button: Button = $RuleBook_Button
 var rulebook := preload("res://Scenes/Components/book.tscn")
 const wait_time_between_problems = 2
@@ -57,6 +57,7 @@ var morse_problem_buf := [] #MORSE PROBLEM OBJ
 
 var frame_timer := Timer.new()
 var timeout_timer := Timer.new()
+var completion_timer := Timer.new()
 
 @onready var sound_player: AudioStreamPlayer = $SoundPlayer
 
@@ -68,6 +69,17 @@ func morse_arrive(morse_object: Morse) -> void:
         first_iteration = false
 
 func _ready() -> void:
+    completion_timer.one_shot = false
+    scene.add_child(completion_timer)
+    completion_timer.start(1)
+    
+    completion_timer.timeout.connect(
+        func() -> void:
+            if morse_code.size() == 0 && morse_code_buf.size() == 0 && morse_problem_buf.size() == 0:
+                SignalBus.morse_complete.emit()
+    )
+    
+    
     get_node(".").add_child(timeout_timer)
     timeout_timer.timeout.connect(timeout_timer_timeout)   
     back.pressed.connect(
@@ -76,7 +88,7 @@ func _ready() -> void:
         sound_player.set_volume_db(-100.0)
         )
     
-    ($HBoxContainer/Submit as Button).pressed.connect(
+    ($Submit as Button).pressed.connect(
     func()-> void:
             if morse_code_buf.size() > 0:
                 if current_morse_problem.getMessage() == input_box.text:
@@ -149,7 +161,6 @@ func _fill_buffer(dot_dash: int) -> void:
     var increment: float = pulse_hz / sample_hz
     var local_length: int
 
-    #Maybe use timers for the acutal pauses instead of empty frames???
     match dot_dash:
         1:
             local_length = LENGTH
@@ -221,7 +232,7 @@ func frame_timer_timeout() -> void:
 var counter:int = 0
 var func_value_a:int = 0 
 var func_value_b:int = 0
-var x_scale:int = 15
+var x_scale:int = 150
 var x_offset:int = 500
 var y_offset:int = 300
 @onready var line2d:Line2D = $Wave

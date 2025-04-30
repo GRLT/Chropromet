@@ -1,110 +1,35 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxjquiqv3dt2f"]
+[gd_scene load_steps=8 format=3 uid="uid://cxjquiqv3dt2f"]
 
 [ext_resource type="Script" path="res://Scripts/Main_Node.gd" id="1_pn7wj"]
+[ext_resource type="PackedScene" uid="uid://cj2ic13okdggj" path="res://Scenes/Main_Scenes/FailBar.tscn" id="2_3pskq"]
 [ext_resource type="PackedScene" uid="uid://igqaxb1151nr" path="res://Scenes/Main_Scenes/Chiper_View.tscn" id="2_g2dg5"]
 [ext_resource type="PackedScene" uid="uid://cd4unbhsjnc7" path="res://Scenes/Main_Scenes/Raid.tscn" id="3_kg3ve"]
 [ext_resource type="PackedScene" uid="uid://bda1ggiiuuel0" path="res://Scenes/Main_Scenes/Bool_Game/Static_Bool_Game.tscn" id="5_ukp71"]
 [ext_resource type="PackedScene" uid="uid://cb4juftce1msi" path="res://Scenes/Main_Scenes/Morse.tscn" id="6_jjkbh"]
+[ext_resource type="Texture2D" uid="uid://uao3g7vwhpaj" path="res://Assets/Sprites/trak_panel_lrg3.jpg" id="7_3wx6d"]
 
 [node name="Main_Node" type="Node2D"]
 script = ExtResource("1_pn7wj")
 
 [node name="MainGame" type="Node2D" parent="."]
-position = Vector2(-200, 1200)
+position = Vector2(-2457, -2182)
 
 [node name="Main_Camera" type="Camera2D" parent="MainGame"]
 
 [node name="Stations" type="Control" parent="MainGame"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = -118.0
-offset_top = 12.0
-offset_right = -7.0
-offset_bottom = 165.0
-metadata/_edit_use_anchors_ = true
-
-[node name="Chiper_Station" type="Control" parent="MainGame/Stations"]
-anchors_preset = 0
-offset_left = 221.0
-offset_top = 14.0
-offset_right = 333.0
-offset_bottom = 68.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="Chiper_Station_Counter" type="Label" parent="MainGame/Stations/Chiper_Station"]
-layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 23.0
+anchor_bottom = 0.5
+offset_left = -55.5
+offset_top = -76.5
+offset_right = 55.5
+offset_bottom = 76.5
 grow_horizontal = 2
-uppercase = true
-metadata/_edit_lock_ = true
-
-[node name="Chiper_Button" type="Button" parent="MainGame/Stations/Chiper_Station" groups=["main_buttons"]]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 112.0
-grow_vertical = 0
-text = "Chiper_Game"
+grow_vertical = 2
 metadata/_edit_use_anchors_ = true
-metadata/_edit_lock_ = true
-
-[node name="Morse_Station" type="Control" parent="MainGame/Stations"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -95.0
-offset_top = 38.0
-offset_right = -38.0
-offset_bottom = 69.0
-
-[node name="Morse_Station_Counter" type="Label" parent="MainGame/Stations/Morse_Station"]
-layout_mode = 0
-offset_left = 60.0
-offset_right = 100.0
-offset_bottom = 23.0
-metadata/_edit_use_anchors_ = true
-
-[node name="Morse_Button" type="Button" parent="MainGame/Stations/Morse_Station"]
-layout_mode = 1
-offset_right = 57.0
-offset_bottom = 31.0
-text = "Morse"
-metadata/_edit_lock_ = true
-
-[node name="Logic_Gate_Station" type="Control" parent="MainGame/Stations"]
-anchors_preset = 0
-offset_left = 53.0
-offset_top = 34.0
-offset_right = 162.0
-offset_bottom = 70.0
-
-[node name="Logic_Gate" type="Button" parent="MainGame/Stations/Logic_Gate_Station"]
-layout_mode = 0
-offset_top = 3.0
-offset_right = 89.0
-offset_bottom = 34.0
-text = "Logic Gate"
-
-[node name="RaidButton" type="Button" parent="MainGame" groups=["main_buttons"]]
-offset_left = -577.0
-offset_top = -244.0
-offset_right = -528.0
-offset_bottom = -209.0
-text = "Raid"
-
-[node name="Warning_Texture" type="TextureRect" parent="MainGame" groups=["warning"]]
-unique_name_in_owner = true
-offset_left = -577.0
-offset_top = -324.0
-offset_right = -497.0
-offset_bottom = -244.0
 
 [node name="GameStart" type="Button" parent="MainGame"]
 offset_left = -577.0
@@ -120,13 +45,89 @@ offset_right = -440.0
 offset_bottom = 324.0
 text = "Rulebook"
 
+[node name="FailBar" parent="MainGame" instance=ExtResource("2_3pskq")]
+position = Vector2(-574, -319)
+scale = Vector2(1.75693, 1.65172)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainGame"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -163.0
+offset_top = -26.5
+offset_right = 163.0
+offset_bottom = 26.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Logic_Gate" type="Button" parent="MainGame/HBoxContainer"]
+layout_mode = 2
+text = "Logic Gate"
+
+[node name="Morse_Button" type="Button" parent="MainGame/HBoxContainer"]
+custom_minimum_size = Vector2(108, 45)
+layout_mode = 2
+text = "Morse"
+
+[node name="Chiper_Button" type="Button" parent="MainGame/HBoxContainer" groups=["main_buttons"]]
+custom_minimum_size = Vector2(108, 45)
+layout_mode = 2
+text = "Chiper_Game"
+
+[node name="RaidButton" type="Button" parent="MainGame/HBoxContainer" groups=["main_buttons"]]
+custom_minimum_size = Vector2(108, 53)
+layout_mode = 2
+text = "Raid"
+
+[node name="Active_Container" type="HBoxContainer" parent="MainGame"]
+offset_left = -222.0
+offset_top = -68.0
+offset_right = 192.0
+offset_bottom = -28.0
+theme_override_constants/separation = 90
+
+[node name="LogicGate" type="Label" parent="MainGame/Active_Container"]
+visible = false
+layout_mode = 2
+text = "Active"
+
+[node name="Morse" type="Label" parent="MainGame/Active_Container"]
+visible = false
+layout_mode = 2
+text = "Active"
+
+[node name="ChiperGame" type="Label" parent="MainGame/Active_Container"]
+visible = false
+layout_mode = 2
+text = "Active"
+
 [node name="Chiper" parent="." instance=ExtResource("2_g2dg5")]
 position = Vector2(2201, -721)
 
 [node name="Raid_s" parent="." instance=ExtResource("3_kg3ve")]
-position = Vector2(-1872, -9)
+position = Vector2(-1856, -597)
 
 [node name="Morse" parent="." instance=ExtResource("6_jjkbh")]
 position = Vector2(-565, -1827)
 
 [node name="StaticBoolGame" parent="." instance=ExtResource("5_ukp71")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+z_index = -10
+layout_mode = 0
+offset_left = -3304.0
+offset_top = -2616.0
+offset_right = 3062.0
+offset_bottom = -172.0
+mouse_filter = 2
+texture = ExtResource("7_3wx6d")
+stretch_mode = 1

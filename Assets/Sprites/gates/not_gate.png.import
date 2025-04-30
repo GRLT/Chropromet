@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dc712ebq8iocx"
-path="res://.godot/imported/Raid_Warning_1.png-bc56f38f6435ee8c9c42d4a4864da68b.ctex"
+uid="uid://b8dfuvvvgndrw"
+path="res://.godot/imported/not_gate.png-685693e0fa5caf261fd20d9e2bceb699.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Raid_Warning_1.png"
-dest_files=["res://.godot/imported/Raid_Warning_1.png-bc56f38f6435ee8c9c42d4a4864da68b.ctex"]
+source_file="res://Assets/Sprites/gates/not_gate.png"
+dest_files=["res://.godot/imported/not_gate.png-685693e0fa5caf261fd20d9e2bceb699.ctex"]
 
 [params]
 

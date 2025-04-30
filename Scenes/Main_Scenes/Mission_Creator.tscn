@@ -1,23 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cbquupi2u202o"]
+[gd_scene load_steps=3 format=3 uid="uid://cbquupi2u202o"]
 
 [ext_resource type="Script" path="res://Scripts/mission_creator.gd" id="1_fnxai"]
+[ext_resource type="Texture2D" uid="uid://uao3g7vwhpaj" path="res://Assets/Sprites/trak_panel_lrg3.jpg" id="2_4dc4x"]
 
 [node name="MissionCreator" type="Node2D"]
 script = ExtResource("1_fnxai")
-
-[node name="New_Mission" type="Button" parent="."]
-offset_left = 19.0
-offset_top = 18.0
-offset_right = 160.0
-offset_bottom = 60.0
-text = "New Mission!"
-
-[node name="Save" type="Button" parent="."]
-offset_left = 19.0
-offset_top = 64.0
-offset_right = 160.0
-offset_bottom = 106.0
-text = "Save Into File"
 
 [node name="Tree_Container" type="ScrollContainer" parent="."]
 layout_direction = 2
@@ -34,3 +21,30 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Tree_Container"]
 layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 267.0
+offset_bottom = 112.0
+theme_override_constants/separation = 20
+
+[node name="Back" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="Save" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Save Into File"
+
+[node name="New_Mission" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "New Mission!"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -10
+offset_left = -334.0
+offset_top = -166.0
+offset_right = 1487.0
+offset_bottom = 835.0
+mouse_filter = 2
+texture = ExtResource("2_4dc4x")
+stretch_mode = 1

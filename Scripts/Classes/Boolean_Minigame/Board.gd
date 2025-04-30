@@ -19,7 +19,7 @@ func _init(col:int, row:int, duration:float) -> void:
                 row_t.append(Logic_Gate.new([Logic_Gate.connection_values.NONE], Logic_Gate.gate_types.NONE))
         board.append(row_t)
     
-    #Set the supply, and consumer
+    #Set the supply
     for i in col:
         var gate_node:Gate_Node = Gate_Node.new(Logic_Gate.connection_values.NONE)
         var texture:TextureRect = TextureRect.new()

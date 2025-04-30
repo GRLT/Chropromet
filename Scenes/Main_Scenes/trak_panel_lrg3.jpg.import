@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxce1eu7cjy7"
-path="res://.godot/imported/supply.png-18c9b387aa85cd32d826fc1026e2d18b.ctex"
+uid="uid://cwhnjj7b7rmjx"
+path="res://.godot/imported/trak_panel_lrg3.jpg-c809755f85b213e60c11e7df992291e6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/supply.png"
-dest_files=["res://.godot/imported/supply.png-18c9b387aa85cd32d826fc1026e2d18b.ctex"]
+source_file="res://Scenes/Main_Scenes/trak_panel_lrg3.jpg"
+dest_files=["res://.godot/imported/trak_panel_lrg3.jpg-c809755f85b213e60c11e7df992291e6.ctex"]
 
 [params]
 
