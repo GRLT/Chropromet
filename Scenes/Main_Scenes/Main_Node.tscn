@@ -10,6 +10,7 @@
 script = ExtResource("1_pn7wj")
 
 [node name="MainGame" type="Node2D" parent="."]
+position = Vector2(-200, 1200)
 
 [node name="Main_Camera" type="Camera2D" parent="MainGame"]
 
@@ -129,4 +130,3 @@ position = Vector2(-1872, -9)
 position = Vector2(-565, -1827)
 
 [node name="StaticBoolGame" parent="." instance=ExtResource("5_ukp71")]
-position = Vector2(1682, 923)
