@@ -6,11 +6,18 @@
 script = ExtResource("1_fnxai")
 
 [node name="New_Mission" type="Button" parent="."]
-offset_left = 106.0
-offset_top = 83.0
-offset_right = 247.0
-offset_bottom = 125.0
+offset_left = 19.0
+offset_top = 18.0
+offset_right = 160.0
+offset_bottom = 60.0
 text = "New Mission!"
+
+[node name="Save" type="Button" parent="."]
+offset_left = 19.0
+offset_top = 64.0
+offset_right = 160.0
+offset_bottom = 106.0
+text = "Save Into File"
 
 [node name="Tree_Container" type="ScrollContainer" parent="."]
 layout_direction = 2
@@ -19,7 +26,7 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 421.0
+offset_left = 278.0
 offset_right = 1071.0
 offset_bottom = 550.0
 grow_horizontal = 2
@@ -27,10 +34,3 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Tree_Container"]
 layout_mode = 2
-
-[node name="Save" type="Button" parent="."]
-offset_left = 106.0
-offset_top = 129.0
-offset_right = 247.0
-offset_bottom = 171.0
-text = "Save Into File"

@@ -16,6 +16,8 @@ signal morse_info(pool_size: int)
 @onready var raid_button: Button = $MainGame/RaidButton
 @onready var raid_camera: Camera2D = $Raid_s/RaidCamera
 
+@onready var logic_gate_camera: Camera2D = $StaticBoolGame/LogicGameCamera
+@onready var logic_gate_button: Button = $MainGame/Stations/Logic_Gate_Station/Logic_Gate
 
 func signal_setup() -> void:
     raid_button.pressed.connect(
@@ -32,6 +34,11 @@ func signal_setup() -> void:
         func() -> void:
             morse_camera.make_current()
             ($Morse/SoundPlayer as AudioStreamPlayer).set_volume_db(0)
+    )
+    
+    logic_gate_button.pressed.connect(
+        func() -> void:
+            logic_gate_camera.make_current()
     )
     
     SignalBus.scene_to_main.connect(
@@ -51,19 +58,10 @@ func _ready() -> void:
             ($MainGame/Stations/Morse_Station/Morse_Station_Counter as Label).text = str(pool_size)
     )
 
-
-    
-
-
 func gamestart_button_pressed() -> void:
     ProblemGenerator.problem_timer.paused = false
     ProblemGenerator.signal_setup.paused = false
     $MainGame/GameStart.queue_free()
-
-
-
-
-
 
 
 func radio_info(problem_queue_size: int, active: bool) -> void:

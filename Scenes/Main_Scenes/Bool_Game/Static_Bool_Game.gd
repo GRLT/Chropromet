@@ -1,32 +1,87 @@
 extends Node
 
-const row = 3
-const col = 3
-var board:Logic_Board = Logic_Board.new(col, row)
-
+var row:int = 3
+var col:int = 3
+var board:Logic_Board = Logic_Board.new(row,col,20)
 
 var gate:Dictionary = {}
+var user_input:Dictionary = {}
+
 const separation = 150
 @onready var scene:Node2D = $"."
 @onready var hbox: HBoxContainer = $HBoxContainer
+@onready var submit: Button = $Submit
+@onready var line2d_group:Node2D = $Line2DGroup
+@onready var back: Button = $Back
 
 var placeholder_val0 := preload("res://Scenes/Main_Scenes/Bool_Game/Sprite_Gate_Val0.png")
 var placeholder_val1 := preload("res://Scenes/Main_Scenes/Bool_Game/Sprite_Gate_Val1.png")
 var placeholder_texture := preload("res://Scenes/Main_Scenes/Bool_Game/Sprite-0001.png")
 
+@onready var timer: Timer = $Timer
+var queue: Array[Logic_Board]
 
 
 func _ready() -> void:
-    init_gate()
-    init_supply()
-    board.set_gate_type(1,0,Logic_Gate.gate_types.NOT)
-    await connect_gates()
-    
-    print(board)
-    
+    SignalBus.logic_game.connect(
+        func(logic_board:Logic_Board) -> void:
+            if queue.size() == 0:
+                timer.start(1)
+            queue.append(logic_board)
+    )
 
+    timer.timeout.connect(timer_timeout)
+
+    submit.pressed.connect(
+        func() -> void:
+            print(check_user_input())
+    )
     
-@warning_ignore("unsafe_property_access", "unsafe_method_access")
+    back.pressed.connect(
+        func() -> void:
+            SignalBus.scene_to_main.emit()
+    )
+
+func timer_timeout() -> void:
+    if queue.size() == 0:
+        clear_gates()
+        timer.stop()
+
+    if queue.size() > 0:
+        SignalBus.fail_points.emit()
+                
+        timer.stop()
+        board = queue.pop_front()
+        row = board.row
+        col = board.col
+        timer.wait_time = board.duration
+        timer.start()
+                
+        clear_gates()
+        init_gate()
+        init_supply()
+        await  connect_gates()
+
+
+func clear_gates() -> void:
+    for i in hbox.get_children():
+        i.queue_free()
+    for i in line2d_group.get_children():
+        i.queue_free()
+        
+ 
+func check_user_input() -> bool:
+    for i:Logic_Gate in user_input.keys():
+        var result:Logic_Gate.connection_values = i.result
+        var user_value:int = user_input[i].value
+        
+        if result != user_value:
+            return false
+    if board != null:
+        return false
+    return true
+        
+
 func connect_gates() -> void:
     #USE THIS TO FORCE HBOX/VBOX TO UPDATE AND GET PROPER VALUES FOR TEXTURERECT
     await get_tree().process_frame
@@ -116,7 +171,7 @@ func draw_between_points(point0:Vector2, point1:Vector2, offset_x:int, offset_y:
     point1 -= Vector2(-30,-60)
     line.add_point(point1)
     line.width = 3.5
-    scene.add_child(line)
+    line2d_group.add_child(line)
 
 func init_supply() -> void:
     board.set_supply_val_random()
@@ -137,15 +192,33 @@ func init_supply() -> void:
 
 func init_gate() -> void:
     hbox.add_theme_constant_override("separation", separation)
+    board.set_gate_type_random()
     for i in col:
         var vbox:VBoxContainer = VBoxContainer.new()
         vbox.add_theme_constant_override("separation", 20)
         hbox.add_child(vbox)
+
         for j:Logic_Gate in board.get_row(i):
             var texture_rect: TextureRect = TextureRect.new()
-            #Hack
+            #FIXME REMOVE Label stuff
+            var label: Label = Label.new()
+            add_user_input(texture_rect)
+
+
             gate[j] = texture_rect
             texture_rect.texture = placeholder_texture
+            
+            #FIXME REMOVE Label stuff
+            label.text = j.get_selected_logic_gate_str()
+            texture_rect.add_child(label)
             vbox.add_child(texture_rect)
             
-    board.set_gate_type_random()
+    
+func add_user_input(parent: TextureRect) -> void:
+    for i in col:
+        for j:Logic_Gate in board.get_row(i):
+            var input_box: SpinBox = SpinBox.new()
+            input_box.max_value = 1
+            input_box.min_value = 0
+            user_input[j] = input_box
+            parent.add_child(input_box)

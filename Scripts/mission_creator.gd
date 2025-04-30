@@ -7,10 +7,11 @@ extends Node2D
 @onready var scene: Node2D  = get_node(".")
 
 
+
 var config:ConfigFile = ConfigFile.new()
 
-var mini_games: Array = ["Morse", "Chiper_Game", "Raid"]    
-var time_range: Array = [20, 30, 45, 60, 120]
+var mini_games: Array = ["Morse", "Chiper_Game", "Raid", "Logic Board"]    
+var time_range: Array = [20, 30, 45, 60, 120, 240, 360, 480, 600]
 
 var alert_window_glob:Node
 
@@ -67,7 +68,7 @@ func save_pressed() -> void:
     elif !scene.get_node_or_null("AlertWindow/Alert"):
         alert_win.init("Error", 1)
         scene.add_child(alert_win)
-    #print(data)
+
     
     
 
@@ -123,9 +124,26 @@ func new_mission_pressed() -> void:
                     
                     create_child_elems(container, [message_label, message, shift_label,shift])
                 "Raid":
-                    pass
-                
-
+                    var raid_start_label: Label = Label.new()
+                    raid_start_label.text = "Warning Time"
+                    var warning_time: SpinBox = SpinBox.new()
+                    warning_time.max_value=30
+                    warning_time.min_value=3
+                    
+                    var raid_length_label: Label = Label.new()
+                    raid_length_label.text = "Raid Length"
+                    var raid_length: SpinBox = SpinBox.new()
+                    warning_time.max_value=10
+                    warning_time.min_value=3
+                    create_child_elems(container, [raid_start_label, warning_time, raid_length_label, raid_length])
+                    
+                "Logic Board":
+                    var size_label: Label = Label.new()
+                    size_label.text = "Board Size"
+                    var logic_board_duration: SpinBox = SpinBox.new()
+                    logic_board_duration.max_value=4
+                    logic_board_duration.min_value=2
+                    create_child_elems(container, [size_label, logic_board_duration])
     )
     
     label_mission.text = "Mission Type"  
@@ -145,7 +163,7 @@ func new_mission_pressed() -> void:
     create_child_elems(container, [label_mission, option_button_mission, lable_time, option_button_time])
 
 func alert_window(input_data:LineEdit) -> void:
-    var dir: DirAccess = DirAccess.open("res://")
+    var dir: DirAccess = DirAccess.open("user://")
     var path:String = input_data.text
     #alert_win.queue_free()
     
@@ -154,10 +172,10 @@ func alert_window(input_data:LineEdit) -> void:
         path += ".cfg"
     
     #ALERT TODO This needs to be change to user://
-    if !dir.dir_exists("res://Saves"):
-        dir.make_dir("res://Saves")
+    if !dir.dir_exists("user://Saves"):
+        dir.make_dir("user://Saves")
         
-    path = "res://Saves/%s" % path
+    path = "user://Saves/%s" % path
 
     var ret := config.save(path)
     

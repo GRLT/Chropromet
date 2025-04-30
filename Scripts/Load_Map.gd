@@ -28,7 +28,7 @@ func _ready() -> void:
 
 @warning_ignore("unsafe_call_argument", "untyped_declaration")
 func load_data(file_name:String, config: ConfigFile) -> void:
-    var file_name_formatted: String = "res://Saves/%s" % file_name
+    var file_name_formatted: String = "user://Saves/%s" % file_name
 
     var err: Error = config.load(file_name_formatted)
     var data_from_file: Array = []
@@ -54,7 +54,14 @@ func load_data(file_name:String, config: ConfigFile) -> void:
             var message = i[4]
             data.append(Morse.new(message, int(timer)))
         elif i[0] == "Raid":
-            pass
+            var timer = i[2]
+            var warning_time = i[4]
+            var raid_length = i[6]
+            data.append(Raid_Object.new(float(timer),float(raid_length), float(warning_time)))
+        elif i[0] == "Logic Board":
+            var timer = i[2]
+            var size = i[4]
+            data.append(Logic_Board.new(int(size), int(size), float(timer)))
 
     ProblemGenerator.load_map.emit(data)
     
@@ -71,10 +78,14 @@ func create_menu(files: Array) -> void:
 
         container.add_child(button)
     
-   
+
 func get_maps_from_disk() -> Array:
-    var dir:DirAccess = DirAccess.open("res://Saves")
+    var dir:DirAccess = DirAccess.open("user://Saves")
     var file_names: Array = []
+        
+    if dir == null:
+        DirAccess.make_dir_absolute("user://Saves")
+        dir = DirAccess.open("user://Saves")
         
     if dir:
         dir.list_dir_begin()
@@ -88,3 +99,4 @@ func get_maps_from_disk() -> Array:
     
     file_names.erase("")
     return file_names
+    

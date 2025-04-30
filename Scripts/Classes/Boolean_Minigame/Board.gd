@@ -2,14 +2,16 @@ class_name Logic_Board
 
 var board: Array = []
 var supply_node : Dictionary = {}
-var end_node: Gate_Node
+
 
 var col: int = 0
 var row: int = 0
+var duration:float
 
-func _init(col:int, row:int) -> void:
+func _init(col:int, row:int, duration:float) -> void:
     self.col = col
     self.row = row
+    self.duration = duration
     for i in col:
         var row_t:Array = []
         for j in row:
@@ -22,7 +24,7 @@ func _init(col:int, row:int) -> void:
         var gate_node:Gate_Node = Gate_Node.new(Logic_Gate.connection_values.NONE)
         var texture:TextureRect = TextureRect.new()
         supply_node[gate_node] = texture
-    end_node = Gate_Node.new(Logic_Gate.connection_values.NONE)
+
 
 @warning_ignore("unsafe_method_access")
 func set_gate_type(col:int, row:int, gate_type:Logic_Gate.gate_types) -> void:
@@ -66,11 +68,11 @@ func get_elem(col:int, row:int) -> Logic_Gate:
 func get_board() -> Array:
     return self.board
     
-@warning_ignore("untyped_declaration")
-func _to_string() -> String:
-    var str_build: String = ""
-    for i in board:
-        str_build += "\n"
-        for j in i:
-            str_build += " | "+ str(j) + " | "
-    return str_build
+#@warning_ignore("untyped_declaration")
+#func _to_string() -> String:
+    #var str_build: String = ""
+    #for i in board:
+        #str_build += "\n"
+        #for j in i:
+            #str_build += " | "+ str(j) + " | "
+    #return str_build

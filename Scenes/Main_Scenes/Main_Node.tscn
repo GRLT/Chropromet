@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cxjquiqv3dt2f"]
+[gd_scene load_steps=6 format=3 uid="uid://cxjquiqv3dt2f"]
 
 [ext_resource type="Script" path="res://Scripts/Main_Node.gd" id="1_pn7wj"]
-[ext_resource type="Texture2D" path="res://Assets/Raid_Warning_0.png" id="2_fk04b"]
 [ext_resource type="PackedScene" uid="uid://igqaxb1151nr" path="res://Scenes/Main_Scenes/Chiper_View.tscn" id="2_g2dg5"]
 [ext_resource type="PackedScene" uid="uid://cd4unbhsjnc7" path="res://Scenes/Main_Scenes/Raid.tscn" id="3_kg3ve"]
+[ext_resource type="PackedScene" uid="uid://bda1ggiiuuel0" path="res://Scenes/Main_Scenes/Bool_Game/Static_Bool_Game.tscn" id="5_ukp71"]
 [ext_resource type="PackedScene" uid="uid://cb4juftce1msi" path="res://Scenes/Main_Scenes/Morse.tscn" id="6_jjkbh"]
-[ext_resource type="PackedScene" uid="uid://brtwhwirk5f54" path="res://Scenes/Components/book.tscn" id="7_lcxqt"]
 
 [node name="Main_Node" type="Node2D"]
 script = ExtResource("1_pn7wj")
@@ -17,17 +16,20 @@ script = ExtResource("1_pn7wj")
 [node name="Stations" type="Control" parent="MainGame"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 111.0
-offset_bottom = 153.0
+offset_left = -118.0
+offset_top = 12.0
+offset_right = -7.0
+offset_bottom = 165.0
 metadata/_edit_use_anchors_ = true
 
 [node name="Chiper_Station" type="Control" parent="MainGame/Stations"]
 anchors_preset = 0
-offset_right = 112.0
-offset_bottom = 54.0
+offset_left = 221.0
+offset_top = 14.0
+offset_right = 333.0
+offset_bottom = 68.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-metadata/_edit_lock_ = true
 
 [node name="Chiper_Station_Counter" type="Label" parent="MainGame/Stations/Chiper_Station"]
 layout_mode = 1
@@ -56,11 +58,10 @@ metadata/_edit_lock_ = true
 [node name="Morse_Station" type="Control" parent="MainGame/Stations"]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 2.0
-offset_top = 85.0
-offset_right = 59.0
-offset_bottom = 116.0
-metadata/_edit_lock_ = true
+offset_left = -95.0
+offset_top = 38.0
+offset_right = -38.0
+offset_bottom = 69.0
 
 [node name="Morse_Station_Counter" type="Label" parent="MainGame/Stations/Morse_Station"]
 layout_mode = 0
@@ -76,6 +77,20 @@ offset_bottom = 31.0
 text = "Morse"
 metadata/_edit_lock_ = true
 
+[node name="Logic_Gate_Station" type="Control" parent="MainGame/Stations"]
+anchors_preset = 0
+offset_left = 53.0
+offset_top = 34.0
+offset_right = 162.0
+offset_bottom = 70.0
+
+[node name="Logic_Gate" type="Button" parent="MainGame/Stations/Logic_Gate_Station"]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 89.0
+offset_bottom = 34.0
+text = "Logic Gate"
+
 [node name="RaidButton" type="Button" parent="MainGame" groups=["main_buttons"]]
 offset_left = -577.0
 offset_top = -244.0
@@ -89,7 +104,6 @@ offset_left = -577.0
 offset_top = -324.0
 offset_right = -497.0
 offset_bottom = -244.0
-texture = ExtResource("2_fk04b")
 
 [node name="GameStart" type="Button" parent="MainGame"]
 offset_left = -577.0
@@ -114,5 +128,5 @@ position = Vector2(-1872, -9)
 [node name="Morse" parent="." instance=ExtResource("6_jjkbh")]
 position = Vector2(-565, -1827)
 
-[node name="Book" parent="." instance=ExtResource("7_lcxqt")]
-visible = false
+[node name="StaticBoolGame" parent="." instance=ExtResource("5_ukp71")]
+position = Vector2(1682, 923)

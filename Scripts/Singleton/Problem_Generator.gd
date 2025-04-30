@@ -6,13 +6,10 @@ const WARNING_RAID_TIMER = 3
 
 signal chiper(problems: Caesar_Shift_Object)
 signal keyboard_layout(layout: String)
-signal morse(morse_object: Morse)
 signal load_map(data: Array)
 
 var problem_timer := Timer.new()
 var signal_setup := Timer.new()
-
-
 
 
 var problems: Array[Object] = []
@@ -27,16 +24,20 @@ func _ready() -> void:
     # creating new stuff, but maybe this is just 
     # neat, and I should leave it here
     #var root := get_node("../Main_Node")
-    
-    
+    #await get_tree().process_frame
+    #problems.push_front(Logic_Board.new(3,3, 10))
+    #problems.push_front(Logic_Board.new(2,2, 15))
+    #send_problem()
+    #send_problem()
+    #
     timer_for_problem_gen()
     
     load_map.connect(
         func(data: Array) -> void:
             load_from_file(data)
     )
-    await get_tree().process_frame
-    SignalBus.raid_prep.emit(Raid_Object.new(2, 10, 4))
+    #await get_tree().process_frame
+    #SignalBus.raid_prep.emit(Raid_Object.new(2, 10, 4))
 
 func timer_for_problem_gen() -> void:
     problem_timer.paused = true
@@ -62,26 +63,14 @@ func timer_for_problem_gen() -> void:
 func load_from_file(data: Array) -> void:
     for i in data:
         if i is Caesar_Shift_Object:
-            chiper_message(i.getMessage() as String, i.getShift() as int)
+            problems.push_back(i)
         elif i is Morse:
-            morse_message(i.getMessage() as String, i.getDuration() as int)
-
-
-func supply_drop(x: int, y: int, type: String) -> void:
-    var supply_drop_obj := Supply_Drop.new(x, y, type)
-    problems.push_back(supply_drop_obj)
-
-#shift max range -24 to 24
-func chiper_message(message: String, shift: int) -> void:
-    #var chiper_random = randi_range(-24, 24)
-    var chiper_obj := Caesar_Shift_Object.new(message, shift)
-    problems.push_back(chiper_obj)
-
-
-func morse_message(message: String, duration: int) -> void:
-    var morse_obj := Morse.new(message, duration)
-    problems.push_back(morse_obj)
-
+            problems.push_back(i)
+        elif i is Raid_Object:
+            problems.push_back(i)
+        elif i is Logic_Board:
+            problems.push_back(i)
+            
 
 func setup() -> void:
     keyboard_layout.emit(layout.pick_random())
@@ -91,17 +80,23 @@ func send_problem() -> void:
     if problems.size() > 0:
         var current := problems[0]
         
-        print("Sending current problem: ", current)
+
         if current is Caesar_Shift_Object:
             chiper.emit(current)
             problems.pop_front()
+            print("Caesar Shift Signal")
 
         if current is Raid_Object:
-            var current_raid_object: Raid_Object = current
-            SignalBus.raid_prep.emit(current_raid_object)
+            SignalBus.raid_prep.emit(current)
             problems.pop_front()
+            print("Raid Signal")
 
         if current is Morse:
-            morse.emit(current as Morse)
-            print("Sending a Morse Signal.")
+            SignalBus.morse.emit(current)
             problems.pop_front()
+            print("Sending a Morse Signal")
+            
+        if current is Logic_Board:
+            SignalBus.logic_game.emit(current)
+            problems.pop_front()
+            print("Sending Logic Game Signal")
