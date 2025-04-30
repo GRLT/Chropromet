@@ -12,9 +12,9 @@ const wait_time_between_problems = 2
 
 #LIMIT FRAMES, EXCESSIVE CPU USE!!!
 const LENGTH = 300
-enum morse_type { DOT = 1, DASH = 2, EMPTY = 3, CHAR_SEP = 4, WORD_SEP = 5 }
 #Spaces between the dot/dash are hardcoded
-#https://morsecode.world/international/morse2.html (DOUBLE CHECK!)
+#https://morsecode.world/international/morse2.html
+enum morse_type { DOT = 1, DASH = 2, EMPTY = 3, CHAR_SEP = 4, WORD_SEP = 5 }
 enum char_to_morse {
     # dot = 1
     # dash = 2
@@ -59,8 +59,6 @@ var morse_problem_buf := [] #MORSE PROBLEM OBJ
 var frame_timer := Timer.new()
 var timeout_timer := Timer.new()
 
-
-
 @onready var sound_player: AudioStreamPlayer = $SoundPlayer
 
 var first_iteration: bool = true
@@ -76,7 +74,9 @@ func _ready() -> void:
     back.pressed.connect(
         func() -> void:
         SignalBus.scene_to_main.emit()
+        sound_player.set_volume_db(-100.0)
         )
+    
     ($HBoxContainer/Submit as Button).pressed.connect(
     func()-> void:
             if morse_code_buf.size() > 0:
@@ -88,14 +88,14 @@ func _ready() -> void:
                     print("Empty morse buffer!")
             next_morse_problem()
     )
-    ProblemGenerator.morse.connect(morse_arrive)
+    SignalBus.morse.connect(morse_arrive)
 
     #ALERT
     @warning_ignore("unsafe_property_access")
     sound_player.stream.mix_rate = sample_hz
     sound_player.play()
     playback = sound_player.get_stream_playback()
-    sound_player.set_volume_db(-20.0)
+    sound_player.set_volume_db(-100.0)
     
     
     get_node(".").add_child(frame_timer)
@@ -127,6 +127,7 @@ func next_morse_problem() -> void:
     timeout_timer.wait_time = wait_time_between_problems
     timeout_timer.start()
     sound_player.stop()
+    
     morse_code = []
     morse_code_buf = []
     draw_standing()
@@ -134,7 +135,6 @@ func next_morse_problem() -> void:
 
 
 
-@warning_ignore("unsafe_method_access")
 func _fill_buffer(dot_dash: int) -> void:
     var increment: float = pulse_hz / sample_hz
     var local_length: int
@@ -200,14 +200,14 @@ func frame_timer_timeout() -> void:
         morse.queue_redraw()
         playing_morse_code = morse_code.pop_front()
         _fill_buffer(int(playing_morse_code))
-        ($Label2 as Label).text = "Sequence in progress!"
+        ($Label as Label).text = "Sequence in progress!"
     elif morse_code_buf.size() > 0:
             morse_code = (morse_code_buf.duplicate() as Array)
-            ($Label2 as Label).text = "Starting Sequence!"
+            ($Label as Label).text = "Starting Sequence!"
 
 
 
-
+#ShaderStuff
 var counter:int = 0
 var func_value_a:int = 0 
 var func_value_b:int = 0
