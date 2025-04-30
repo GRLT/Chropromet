@@ -113,7 +113,7 @@ offset_right = -531.0
 offset_bottom = 324.0
 text = "Start"
 
-[node name="RuleBook" type="Button" parent="MainGame"]
+[node name="RuleBook_Button" type="Button" parent="MainGame"]
 offset_left = -521.0
 offset_top = 293.0
 offset_right = -440.0

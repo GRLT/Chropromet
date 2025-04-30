@@ -10,7 +10,7 @@ var raid_wait: Timer = Timer.new()
 
 var audio_stream_player: AudioStreamPlayer = AudioStreamPlayer.new()
 var area_clear_player: AudioStreamPlayer = AudioStreamPlayer.new()
-@onready var audio_sample0 := preload("res://Assets/Sound/SFX/siren_1.mp3")
+@onready var siren := preload("res://Assets/Sound/SFX/siren_1.mp3")
 @onready var cannon_sfx := preload("res://Assets/Sound/SFX/cannon_mixed.mp3")
 @onready var area_clear := preload("res://Assets/Sound/SFX/Area_Clear.mp3")
 
@@ -44,7 +44,7 @@ func _ready() -> void:
             warning_timer.start(current_raid_object.warning_timer)
             
             raid_duration.start(current_raid_object.duration)
-            audio_stream_player.stream = audio_sample0
+            audio_stream_player.stream = siren
             audio_stream_player.play()
     )
 
@@ -57,6 +57,8 @@ func _ready() -> void:
             var active_camera:Camera2D = get_viewport().get_camera_2d()
             if active_camera.name != "RaidCamera":
                 audio_stream_player.stop()
+                area_clear_player.stop()
+                raid_duration.stop()
                 get_tree().change_scene_to_file("res://Scenes/Main_Scenes/Fail.tscn")
     )
     
@@ -69,5 +71,6 @@ func _ready() -> void:
     )
 
 func raid_prep(current_raid_object: Raid_Object) -> void:
+    print("Here")
     self.current_raid_object = current_raid_object
     raid_wait.start(current_raid_object.raid_start)

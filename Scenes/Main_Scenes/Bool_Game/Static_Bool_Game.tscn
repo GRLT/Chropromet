@@ -23,8 +23,6 @@ text = "Submit"
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="Line2DGroup" type="Node2D" parent="."]
-
 [node name="LogicGameCamera" type="Camera2D" parent="."]
 position = Vector2(576, 322)
 
@@ -32,3 +30,10 @@ position = Vector2(576, 322)
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Back"
+
+[node name="RuleBook_Button" type="Button" parent="."]
+offset_left = 11.0
+offset_top = 591.0
+offset_right = 145.0
+offset_bottom = 622.0
+text = "Rulebook"

@@ -1,14 +1,13 @@
 
 extends Node
 
-signal morse_back
-
-
 @onready var back: Button = $Back
-@onready var morse: Node2D = get_node(".")
+@onready var scene: Node2D = get_node(".")
 @onready var input_box: LineEdit = $HBoxContainer/LineEdit
+@onready var rulebook_button: Button = $RuleBook_Button
+var rulebook := preload("res://Scenes/Components/book.tscn")
 const wait_time_between_problems = 2
- 
+
 
 #LIMIT FRAMES, EXCESSIVE CPU USE!!!
 const LENGTH = 300
@@ -84,11 +83,22 @@ func _ready() -> void:
                     print_rich("[color=green]Good job!")
                 else:
                     print_rich("[color=red]You failed!")
+                    SignalBus.fail_points.emit()
                 if morse_code_buf.front() == null:
                     print("Empty morse buffer!")
             next_morse_problem()
     )
+    
+    rulebook_button.pressed.connect(
+        func() -> void:
+                scene.add_child(rulebook.instantiate())
+                var exception:Array[String] = ["Morse Game", "DotDash"]
+                SignalBus.hide_book_pages_with_exception.emit(exception)
+    )
+    
     SignalBus.morse.connect(morse_arrive)
+
+
 
     #ALERT
     @warning_ignore("unsafe_property_access")
@@ -131,7 +141,7 @@ func next_morse_problem() -> void:
     morse_code = []
     morse_code_buf = []
     draw_standing()
-    morse.queue_redraw()
+    scene.queue_redraw()
 
 
 
@@ -197,7 +207,7 @@ func frame_timer_timeout() -> void:
     frame_timer.wait_time = 0.4
 
     if morse_code.size() != 0:
-        morse.queue_redraw()
+        scene.queue_redraw()
         playing_morse_code = morse_code.pop_front()
         _fill_buffer(int(playing_morse_code))
         ($Label as Label).text = "Sequence in progress!"
@@ -211,9 +221,9 @@ func frame_timer_timeout() -> void:
 var counter:int = 0
 var func_value_a:int = 0 
 var func_value_b:int = 0
-var x_scale:int = 100
+var x_scale:int = 15
 var x_offset:int = 500
-var y_offset:int = 400
+var y_offset:int = 300
 @onready var line2d:Line2D = $Wave
 func draw_trinagle() -> void:
  for i in range(-10,10,1):

@@ -4,11 +4,14 @@ extends Node
 @onready var fail: Timer = $Timeout_Timer
 @onready var charachter_timeout: Timer = $Charachter_Timer
 @onready var back: Button = $Back
+@onready var scene:Node2D = $"."
 
 @onready var submit_button: Button = $Keyboard/Submit
 @onready var player_input_screen: Label = $Keyboard/Player_Input_Screen
 @onready var keyboard: Keyboard = $Keyboard
 
+@onready var rulebook_button: Button = $RuleBook_Button
+var rulebook := preload("res://Scenes/Components/book.tscn")
 
 var problem_queue: Array[Caesar_Shift_Object] = []
 
@@ -29,7 +32,12 @@ func _ready() -> void:
     charachter_timeout.timeout.connect(message_print)
     submit_button.pressed.connect(check_chiper)
 
-
+    rulebook_button.pressed.connect(
+        func() -> void:
+                scene.add_child(rulebook.instantiate())
+                var exception:Array[String] = ["Chiper Game"]
+                SignalBus.hide_book_pages_with_exception.emit(exception)
+    )
 
 
 
@@ -87,6 +95,7 @@ func check_chiper() -> void:
             print("Entered fail")
             if problem_queue.size() != 0:
                 problem_queue.pop_front()
+                SignalBus.fail_points.emit()
                 display.text = "FAIL"
                 active = false
                 arrive_chiper()
@@ -94,6 +103,7 @@ func check_chiper() -> void:
                 #stat.emit()
     else:
         player_input_screen.text = "FAIL"
+        SignalBus.fail_points.emit()
 
 
 func timers_stop() -> void:

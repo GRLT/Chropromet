@@ -19,6 +19,9 @@ signal morse_info(pool_size: int)
 @onready var logic_gate_camera: Camera2D = $StaticBoolGame/LogicGameCamera
 @onready var logic_gate_button: Button = $MainGame/Stations/Logic_Gate_Station/Logic_Gate
 
+@onready var rulebook_button: Button = $MainGame/RuleBook_Button
+var rulebook := preload("res://Scenes/Components/book.tscn")
+
 func signal_setup() -> void:
     raid_button.pressed.connect(
         func() -> void:
@@ -33,13 +36,21 @@ func signal_setup() -> void:
     morse_button.pressed.connect(
         func() -> void:
             morse_camera.make_current()
-            ($Morse/SoundPlayer as AudioStreamPlayer).set_volume_db(0)
+            ($Morse/SoundPlayer as AudioStreamPlayer).set_volume_db(-5)
     )
     
     logic_gate_button.pressed.connect(
         func() -> void:
             logic_gate_camera.make_current()
     )
+    
+    rulebook_button.pressed.connect(
+        func() -> void:
+                main_game.add_child(rulebook.instantiate())
+                var exception:Array[String] = ["Main", "Raid"]
+                SignalBus.hide_book_pages_with_exception.emit(exception)
+    )
+    
     
     SignalBus.scene_to_main.connect(
         func() -> void:
